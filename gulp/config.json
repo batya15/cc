@@ -1,6 +1,7 @@
 {
   "path": {
     "src": "src",
-    "build": "build"
+    "build": "build",
+    "bower_components_admin": "src/static/admin/bower_components"
   }
 }
