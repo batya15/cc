@@ -1,0 +1,6 @@
+{
+  "path": {
+    "src": "src",
+    "build": "build"
+  }
+}

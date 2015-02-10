@@ -1,0 +1,52 @@
+{
+  "name": "cc_compile",
+  "version": "0.0.1",
+  "description": "online store",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/batya15/cc.git"
+  },
+  "keywords": [
+    "online",
+    "store",
+    "shop"
+  ],
+  "author": "Batyr Charyew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/batya15/cc/issues"
+  },
+  "homepage": "https://github.com/batya15/cc",
+  "private": "true",
+  "dependencies": {
+    "async": "*",
+    "gulp": "https://github.com/gulpjs/gulp/tarball/4.0",
+    "gulp-concat": "*",
+    "gulp-concat-css": "^0.1.4",
+    "gulp-ignore": "*",
+    "gulp-install": "^0.2.0",
+    "gulp-jade": "*",
+    "gulp-livereload": "^2.1.1",
+    "gulp-minify-css": "*",
+    "gulp-minify-html": "*",
+    "gulp-plumber": "*",
+    "gulp-rename": "*",
+    "gulp-ruby-sass": "*",
+    "gulp-sass": "*",
+    "gulp-shell": "*",
+    "gulp-sourcemaps": "^1.2.2",
+    "gulp-uglify": "*",
+    "gulp-watch": "*",
+    "gulp-wrap-amd": "*",
+    "gulp.spritesmith": "^1.3.0",
+    "intel": "^1.0.0",
+    "main-bower-files": "^2.4.1",
+    "requirejs": "*",
+    "rimraf": "*",
+    "through2": "^0.6.1"
+  }
+}
