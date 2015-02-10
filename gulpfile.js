@@ -2,11 +2,14 @@
 
 var config = require('./gulp/config.json');
 var gulp = require('gulp');
-var clear = require('./gulp/clear');
 
-gulp.task('default', gulp.series('clear'));
+require('./gulp/clean')(gulp, [config.path.build], config.path.src);
 
-gulp.task('clear', function() {
-    clear([config.path.build])
-});
+gulp.task('default', gulp.series('clean', installModules));
 
+
+var install = require('gulp-install');
+function installModules () {
+    return gulp.src([config.path.src + '/nodejs/package.json', config.path.src + '/static/admin/bower.json'])
+        .pipe(install());
+}
