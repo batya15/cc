@@ -1,7 +1,13 @@
 {
   "path": {
     "src": "src",
+    "staticAdmin": "src/static/admin",
     "build": "build",
-    "bower_components_admin": "src/static/admin/bower_components"
+    "bower_components_admin": "src/static/admin/bower_components",
+    "bower_components_admin_vendor": "src/static/admin/vendor"
+  },
+  "modules" : {
+    "admin_bower": "src/static/admin/bower.json",
+    "package": "src/nodejs/package.json"
   }
 }
