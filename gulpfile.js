@@ -4,9 +4,7 @@ var config = require('./gulp/config.json');
 var gulp = require('gulp');
 var install = require('gulp-install');
 var mainBowerFiles = require('main-bower-files');
-var ifElse = require('gulp-if-else');
-var path = require('path');
-var through = require('through2');
+var gulpFilter = require('gulp-filter');
 
 //Удаление папки билда
 require('./gulp/clean')('clean', gulp, [config.path.build], config.path.src);
@@ -18,13 +16,32 @@ function installModules () {
         .pipe(install());
 }
 //Копирование Main Bower файлов
-function copyBower() {
+function bowerJs() {
+    var filter = gulpFilter('*.js');
     return gulp
         .src(mainBowerFiles({paths: config.path.staticAdmin}))
-        .pipe(gulp.dest(config.path.staticAdmin + '/vendor'));
+        .pipe(filter)
+        .pipe(gulp.dest(config.path.staticAdmin + '/vendor/js'));
 }
 
+function bowerCss() {
+    var filter = gulpFilter('*.css');
+    return gulp
+        .src(mainBowerFiles({paths: config.path.staticAdmin}))
+        .pipe(filter)
+        .pipe(gulp.dest(config.path.staticAdmin + '/vendor/css'));
+}
 
-gulp.task('default', gulp.series('clean', copyBower));
+function bowerFonts() {
+    var filter = gulpFilter(['*.eot', '*.svg', '*.ttf', '*.woff']);
+    return gulp
+        .src(mainBowerFiles({paths: config.path.staticAdmin}))
+        .pipe(filter)
+        .pipe(gulp.dest(config.path.staticAdmin + '/vendor/fonts'));
+}
+
+gulp.task('bower', gulp.series(bowerJs, bowerCss, bowerFonts));
+
+gulp.task('default', gulp.series('clean', installModules, 'bower'));
 
 

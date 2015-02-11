@@ -27,6 +27,7 @@
     "gulp": "https://github.com/gulpjs/gulp/tarball/4.0",
     "gulp-concat": "*",
     "gulp-concat-css": "^0.1.4",
+    "gulp-filter": "^2.0.1",
     "gulp-if-else": "^1.0.3",
     "gulp-ignore": "*",
     "gulp-install": "^0.2.0",
