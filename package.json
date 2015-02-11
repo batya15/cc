@@ -29,7 +29,7 @@
     "gulp-concat-css": "^0.1.4",
     "gulp-filter": "^2.0.1",
     "gulp-if-else": "^1.0.3",
-    "gulp-ignore": "*",
+    "gulp-ignore": "^1.2.1",
     "gulp-install": "^0.2.0",
     "gulp-jade": "*",
     "gulp-livereload": "^2.1.1",

@@ -2,6 +2,7 @@
   "path": {
     "src": "src",
     "staticAdmin": "src/static/admin",
+    "distStaticAdmin": "build/static/admin",
     "build": "build",
     "bower_components_admin": "src/static/admin/bower_components",
     "bower_components_admin_vendor": "src/static/admin/vendor"
@@ -9,5 +10,16 @@
   "modules" : {
     "admin_bower": "src/static/admin/bower.json",
     "package": "src/nodejs/package.json"
-  }
+  },
+  "staticFiles": [
+    "src/static/**/*.{css,scss}",
+    "src/static/**/*.js",
+    "src/static/**/*.html",
+    "src/static/**/*.svg",
+    "src/static/**/*.gif",
+    "src/static/**/*.{jpg,jpeg}",
+    "src/static/**/*.{ttf,woff,eot}*",
+    "src/static/**/*.png",
+    "!**/bower_components/**"
+  ]
 }

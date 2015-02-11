@@ -2,3 +2,4 @@
 node_modules
 src/static/admin/bower_components
 src/static/admin/vendor
+build
