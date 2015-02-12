@@ -3,7 +3,7 @@
     "src": "src",
     "jsHint": ["src/static/**/*.js", "!**/bower_components/**", "!**/vendor/**"],
     "scssFiles": ["src/static/**/*.scss", "!**/bower_components/**"],
-    "jadeFiles": ["src/static/**/*.jade", "!**/bower_components/**"],
+    "jadeFiles": ["src/static/**/*.jade", "!**/bower_components/**", "!**/*.html.jade"],
     "jadeHtmlFiles": ["src/static/**/*.html.jade", "!**/bower_components/**"],
     "staticAdmin": "src/static/admin",
     "distStaticAdmin": "build/static/admin",

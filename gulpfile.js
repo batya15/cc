@@ -15,6 +15,8 @@ var path = require('path');
 var async = require('async');
 var through = require('through2');
 var fs = require('fs');
+var livereload = require('gulp-livereload');
+var watch = require('gulp-watch');
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -24,7 +26,7 @@ require('./gulp/clean')('clean', gulp, [config.path.build], config.path.src);
 //Удаление папки билда и всех зависимостей npm и bower
 require('./gulp/clean')('cleanHard', gulp, [config.path.build, config.path.bower_components_admin, config.path.bower_components_admin_vendor], config.path.src);
 //Скачивание всех зависимостей
-function installModules () {
+function installModules() {
     return gulp.src([config.modules.package, config.modules.admin_bower])
         .pipe(install());
 }
@@ -35,7 +37,7 @@ function copyStaticClientFiles() {
         .pipe(gulp.dest(config.path.build));
 }
 //Компиляция стилей SCSS
-function compileStyle () {
+function compileStyle() {
     return gulp.src(config.path.scssFiles)
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -88,6 +90,7 @@ function compileTemplates() {
             }
         });
     }
+
     return gulp.src(config.path.jadeFiles)
         .pipe(plumber())
         .pipe(jade({client: true, pretty: true}))
@@ -130,10 +133,25 @@ function compileStaticTemplates() {
         .pipe(rename({extname: ""}))
         .pipe(gulp.dest(config.path.build + '/static'));
 }
+//Вотчеры
+function registerWatchers() {
+    livereload.listen();
+    watch(config.staticFiles, {verbose: true, name: 'copy-changed-files'}, function (files, done) {
+        return files.pipe(plumber())
+            .pipe(gulp.dest(config.path.build))
+            .pipe(livereload({auto: false}))
+            .on('end', done);
+    });
+    watch(config.path.jadeFiles, {verbose: true, name: 'jade-compile-files'}, compileTemplates);
+    watch(config.path.jadeHtmlFiles, {verbose: true, name: 'jade-static-compile-files'}, compileStaticTemplates);
+    watch(config.path.scssFiles, {verbose: true, name: 'style-compile-files'}, compileStyle);
+    return gulp;
+}
 
-gulp.task('development', gulp.series('clean', 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
+gulp.task('build', gulp.series('clean', 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
+gulp.task('development', gulp.series('build', registerWatchers));
 
-gulp.task('release', gulp.series('development'));
+gulp.task('release', gulp.series('build'));
 gulp.task('default', gulp.series('development'));
 
 
