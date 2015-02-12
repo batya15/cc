@@ -150,14 +150,14 @@ function compileStaticTemplates() {
 //Вотчеры
 function registerWatchers() {
     livereload.listen();
-    watch(config.staticFiles, {verbose: true, name: 'copy-changed-files'}, function (files, done) {
+    watch(config.staticFiles, {verbose: true, name: 'copy-changed-files', base: 'src'}, function (files, done) {
         return files.pipe(plumber())
             .pipe(gulp.dest(config.path.build))
             .pipe(livereload({auto: false}))
             .on('end', done);
     });
-    watch(config.path.jadeFiles, {verbose: true, name: 'jade-compile-files'}, compileTemplates);
     watch(config.path.jadeHtmlFiles, {verbose: true, name: 'jade-static-compile-files'}, compileStaticTemplates);
+    watch(config.path.jadeFiles, {verbose: true, name: 'jade-compile-files'}, compileTemplates);
     watch(config.path.scssFiles, {verbose: true, name: 'style-compile-files'}, compileStyle);
     return gulp;
 }
@@ -213,7 +213,7 @@ function gzipTask() {
         .pipe(gzip({gzipOptions: { level: 9 } }))
         .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
 }
-//копирование конфигурации преложения
+//Копирование конфигурации преложения
 function copyConfig(environment){
     EVN = environment;
     return gulp.src('config/' + environment + '/**/*')
