@@ -1,10 +1,13 @@
 "use strict";
 
-//Сборщик для static/admin + установка зависимостей для nodejs
+//Сборщик для src/static + установка зависимостей для src/nodejs
 
 var config = require('./gulp/config.json');
 var gulp = require('gulp');
 var install = require('gulp-install');
+var sourcemaps = require('gulp-sourcemaps');
+var plumber = require('gulp-plumber');
+var sass = require('gulp-sass');
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -20,9 +23,22 @@ function installModules () {
 //Копирование статичных файлов
 function copyStaticClientFiles() {
     return gulp.src(config.staticFiles, {base: 'src'})
+        .pipe(plumber())
         .pipe(gulp.dest(config.path.build));
 }
+//Компиляция стилей SCSS
+function compileStyle () {
+    return gulp.src(config.path.scssFiles)
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(sass({quiet: true}))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(config.path.build + '/static'));
+}
 
-gulp.task('default', gulp.series('clean', installModules, 'bower', copyStaticClientFiles));
+gulp.task('development', gulp.series('clean',installModules, 'bower', copyStaticClientFiles, compileStyle));
+
+gulp.task('release', gulp.series('development'));
+gulp.task('default', gulp.series('development'));
 
 

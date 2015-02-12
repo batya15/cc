@@ -1,6 +1,7 @@
 {
   "path": {
     "src": "src",
+    "scssFiles": ["src/static/**/*.scss", "!**/bower_components/**"],
     "staticAdmin": "src/static/admin",
     "distStaticAdmin": "build/static/admin",
     "build": "build",
