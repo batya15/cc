@@ -8,6 +8,7 @@
     "staticAdmin": "src/static/admin",
     "distStaticAdmin": "build/static/admin",
     "build": "build",
+    "release": "release",
     "bower_components_admin": "src/static/admin/bower_components",
     "bower_components_admin_vendor": "src/static/admin/vendor"
   },
@@ -25,5 +26,13 @@
     "src/static/**/*.{ttf,woff,eot}*",
     "src/static/**/*.png",
     "!**/bower_components/**"
-  ]
+  ],
+  "staticRelease": [
+    "build/static/**/*.svg",
+    "build/static/**/*.gif",
+    "build/static/**/*.{jpg,jpeg}",
+    "build/static/**/*.{ttf,woff,eot}*",
+    "build/static/**/*.png"
+  ],
+  "gzipFiles": "**/*.{js,html,svg,css,ttf,woff,eot}*"
 }

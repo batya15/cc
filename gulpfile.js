@@ -2,6 +2,8 @@
 
 //Сборщик для src/static + установка зависимостей для src/nodejs
 
+var releaseVersion = "master";
+
 var config = require('./gulp/config.json');
 var gulp = require('gulp');
 var install = require('gulp-install');
@@ -17,6 +19,14 @@ var through = require('through2');
 var fs = require('fs');
 var livereload = require('gulp-livereload');
 var watch = require('gulp-watch');
+var concat = require('gulp-concat');
+var minifyCSS = require('gulp-minify-css');
+var minifyHtml = require('gulp-minify-html');
+var uglify = require('gulp-uglify');
+var git = require('git-rev');
+var asyncPipe = require('gulp-async-func-runner');
+var gzip = require('gulp-gzip');
+
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -24,7 +34,7 @@ require('./gulp/jsHint')(gulp);
 //Удаление папки билда
 require('./gulp/clean')('clean', gulp, [config.path.build], config.path.src);
 //Удаление папки билда и всех зависимостей npm и bower
-require('./gulp/clean')('cleanHard', gulp, [config.path.build, config.path.bower_components_admin, config.path.bower_components_admin_vendor], config.path.src);
+require('./gulp/clean')('cleanHard', gulp, [config.path.build, config.path.bower_components_admin, config.path.bower_components_admin_vendor, config.path.release], config.path.src);
 //Скачивание всех зависимостей
 function installModules() {
     return gulp.src([config.modules.package, config.modules.admin_bower])
@@ -147,11 +157,64 @@ function registerWatchers() {
     watch(config.path.scssFiles, {verbose: true, name: 'style-compile-files'}, compileStyle);
     return gulp;
 }
+//Минификация css
+function cssMinConcatAdmin() {
+    return gulp.src(config.path.build + '/static/admin/**/*.css', {base: 'build'})
+        .pipe(concat('styles.css'))
+        .pipe(minifyCSS({noAdvanced: 1}))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion + '/static/admin/'))
+}
+//Минификация HTML
+function htmlMin() {
+    return gulp.src(config.path.build + '/**/*.html')
+        .pipe(minifyHtml())
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
+}
+//Копирование файлов в релиз
+function copyStaticFileRelease() {
+    return gulp.src(config.staticRelease, {base: 'build'})
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
+}
+//Минимизация JS
+function jsMin() {
+    return gulp.src(config.path.build + '/**/*.js', {base: 'build'})
+        .pipe(uglify())
+        .pipe((through.obj(function (file, enc, cb) {
+            var c = String(file.contents)
+                .replace(/"css\![\.\/\w\-]+"[,]*/g, "")
+                .replace(/,]/g, "]")
+                .replace(/console.log\(.*\)/g, "eval(false)");
+            file.contents = new Buffer(c);
+            this.push(file);
+            cb();
+        })))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
+}
+//Определение текущей ветки
+function getVersion() {
+    return gulp.src('src/*')
+        .pipe(asyncPipe(
+            {},
+            function (opts, chunk, cb) {
+                git.branch(function (str) {
+                    releaseVersion = str;
+                    cb()
+                });
+            }));
 
-gulp.task('build', gulp.series('clean', 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
-gulp.task('development', gulp.series('build', registerWatchers));
+}
+//GZIP release build
+function gzipTask() {
+    return gulp.src(config.path.release + '/' + releaseVersion + '/' +config.gzipFiles)
+        .pipe(gzip({gzipOptions: { level: 9 } }))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
+}
 
-gulp.task('release', gulp.series('build'));
+
+gulp.task('build', gulp.series(getVersion, 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
+gulp.task('development', gulp.series('clean', 'build', registerWatchers));
+
+gulp.task('release', gulp.series('cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
 gulp.task('default', gulp.series('development'));
 
 
