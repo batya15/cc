@@ -10,22 +10,22 @@ require.config({
         },
         'vendor/backbone': {
             deps: [
-                'vendor/underscore',
-                'vendor/jquery'
+                'vendor/js/underscore',
+                'vendor/js/jquery'
             ],
             exports: 'Backbone'
         },
-        'vendor/jquery.cookie': {
+        'vendor/js/jquery.cookie': {
             deps: [
-                'vendor/jquery'
+                'vendor/js/jquery'
             ],
             exports: '$'
         }
     },
     'map': {
         '*': {
-            'css': 'vendor/css', // or whatever the path to require-css is
-            'jquery': 'vendor/jquery'
+            'css': 'vendor/js/css', // or whatever the path to require-css is
+            'jquery': 'vendor/js/jquery'
         }
     }
 });

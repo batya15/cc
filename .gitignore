@@ -6,3 +6,4 @@ build
 release
 src/static/admin/config.json
 src/nodejs/config.json
+src/nodejs/node_modules

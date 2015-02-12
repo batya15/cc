@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "async": "*",
+    "socket.io ": "*"
+  }
+}
