@@ -32,7 +32,8 @@
     "build/static/**/*.gif",
     "build/static/**/*.{jpg,jpeg}",
     "build/static/**/*.{ttf,woff,eot}*",
-    "build/static/**/*.png"
+    "build/static/**/*.png",
+    "!**/test/**"
   ],
   "gzipFiles": "**/*.{js,html,svg,css,ttf,woff,eot}*"
 }

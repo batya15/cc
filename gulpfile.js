@@ -163,14 +163,14 @@ function registerWatchers() {
 }
 //Минификация css
 function cssMinConcatAdmin() {
-    return gulp.src(config.path.build + '/static/admin/**/*.css', {base: 'build'})
+    return gulp.src([config.path.build + '/static/admin/**/*.css', "!**/test/**"], {base: 'build'})
         .pipe(concat('styles.css'))
         .pipe(minifyCSS({noAdvanced: 1}))
         .pipe(gulp.dest(config.path.release + '/' + releaseVersion + '/static/admin/'))
 }
 //Минификация HTML
 function htmlMin() {
-    return gulp.src(config.path.build + '/**/*.html')
+    return gulp.src([config.path.build + '/**/*.html', "!**/test/**"])
         .pipe(minifyHtml())
         .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
 }
@@ -181,7 +181,7 @@ function copyStaticFileRelease() {
 }
 //Минимизация JS
 function jsMin() {
-    return gulp.src(config.path.build + '/**/*.js', {base: 'build'})
+    return gulp.src([config.path.build + '/**/*.js', "!**/test/**"], {base: 'build'})
         .pipe(uglify())
         .pipe((through.obj(function (file, enc, cb) {
             var c = String(file.contents)
