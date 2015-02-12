@@ -14,6 +14,7 @@ var sass = require('gulp-sass');
 var wrap = require('gulp-wrap-amd');
 var jade = require('gulp-jade');
 var rename = require('gulp-rename');
+var shell = require('gulp-shell');
 var path = require('path');
 var async = require('async');
 var through = require('through2');
@@ -28,14 +29,15 @@ var git = require('git-rev');
 var asyncPipe = require('gulp-async-func-runner');
 var gzip = require('gulp-gzip');
 var _ = require('underscore');
+var rjs = require('gulp-requirejs');
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
 require('./gulp/jsHint')(gulp);
 //Удаление папки билда
-require('./gulp/clean')('clean', gulp, [config.path.build], config.path.src);
+require('./gulp/clean')('clean', gulp, [config.path.build, 'temp'], config.path.src);
 //Удаление папки билда и всех зависимостей npm и bower
-require('./gulp/clean')('cleanHard', gulp, [config.path.build, config.path.bower_components_admin, config.path.bower_components_admin_vendor, config.path.release], config.path.src);
+require('./gulp/clean')('cleanHard', gulp, [config.path.build, 'temp', config.path.bower_components_admin, config.path.bower_components_admin_vendor, config.path.release], config.path.src);
 //Скачивание всех зависимостей
 function installModules() {
     return gulp.src([config.modules.package, config.modules.admin_bower])
@@ -61,7 +63,7 @@ function compileTemplates() {
     function scanJadeIncludes(jadeFileName, basePath, callback) {
         fs.readFile(jadeFileName, {"encoding": "utf-8"}, function (err, data) {
             if (err) {
-                callback(err)
+                callback(err);
             } else {
                 var res = [];
                 var tasks = [];
@@ -78,7 +80,7 @@ function compileTemplates() {
                         line = path.join(path.dirname(jadeFileName), line);
                         tasks.push(function (cb) {
                             scanJadeIncludes(line, path.dirname(fn), cb);
-                        })
+                        });
                     }
                 });
                 async.parallel(tasks, function (err, cbres) {
@@ -94,10 +96,10 @@ function compileTemplates() {
                                     }
                                 });
                             }
-                        })
+                        });
                     }
                     callback(err, res);
-                })
+                });
             }
         });
     }
@@ -143,7 +145,7 @@ function compileStaticTemplates() {
 
     return gulp.src(config.path.jadeHtmlFiles)
         .pipe(plumber())
-        .pipe(jade({client: false, pretty: true,  locals: locals}))
+        .pipe(jade({client: false, pretty: true, locals: locals}))
         .pipe(rename({extname: ""}))
         .pipe(gulp.dest(config.path.build + '/static'));
 }
@@ -166,32 +168,12 @@ function cssMinConcatAdmin() {
     return gulp.src([config.path.build + '/static/admin/**/*.css', "!**/test/**"], {base: 'build'})
         .pipe(concat('styles.css'))
         .pipe(minifyCSS({noAdvanced: 1}))
-        .pipe(gulp.dest(config.path.release + '/' + releaseVersion + '/static/admin/'))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion + '/static/admin/'));
 }
 //Минификация HTML
 function htmlMin() {
     return gulp.src([config.path.build + '/**/*.html', "!**/test/**"])
         .pipe(minifyHtml())
-        .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
-}
-//Копирование файлов в релиз
-function copyStaticFileRelease() {
-    return gulp.src(config.staticRelease, {base: 'build'})
-        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
-}
-//Минимизация JS
-function jsMin() {
-    return gulp.src([config.path.build + '/**/*.js', "!**/test/**"], {base: 'build'})
-        .pipe(uglify())
-        .pipe((through.obj(function (file, enc, cb) {
-            var c = String(file.contents)
-                .replace(/"css\![\.\/\w\-]+"[,]*/g, "")
-                .replace(/,]/g, "]")
-                .replace(/console.log\(.*\)/g, "eval(false)");
-            file.contents = new Buffer(c);
-            this.push(file);
-            cb();
-        })))
         .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
 }
 //Определение текущей ветки
@@ -202,29 +184,62 @@ function getVersion() {
             function (opts, chunk, cb) {
                 git.branch(function (str) {
                     releaseVersion = str;
-                    cb()
+                    cb();
                 });
             }));
 
 }
 //GZIP release build
 function gzipTask() {
-    return gulp.src(config.path.release + '/' + releaseVersion + '/' +config.gzipFiles)
-        .pipe(gzip({gzipOptions: { level: 9 } }))
-        .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
+    return gulp.src(config.path.release + '/' + releaseVersion + '/' + config.gzipFiles)
+        .pipe(gzip({gzipOptions: {level: 9}}))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
 }
 //Копирование конфигурации преложения
-function copyConfig(environment){
+function copyConfig(environment) {
     EVN = environment;
     return gulp.src('config/' + environment + '/**/*')
-        .pipe(gulp.dest(config.path.src))
+        .pipe(gulp.dest(config.path.src));
 }
+//Копирование файлов в релиз
+function copyStaticFileRelease() {
+    return gulp.src(config.staticRelease, {base: 'build'})
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
+}
+//Минимизация JS
+function jsMin() {
+    return gulp.src([config.path.build + '/**/*.js', "!**/test/**", "!**/css.js", "!**/css-builder.js"], {base: 'build'})
+        .pipe(uglify())
+        .pipe((through.obj(function (file, enc, cb) {
+            var c = String(file.contents)
+                .replace(/"css\![\.\/\w\-]+"[,]*/g, "")
+                .replace(/,]/g, "]")
+                .replace(/console.log\(.*\)/g, "eval(false)");
+            file.contents = new Buffer(c);
+            this.push(file);
+            cb();
+        })))
+        .pipe(gulp.dest(config.path.release + '/temp'));
+}
+function concatRjs() {
+    gulp.src(config.path.release + '/temp/static/admin/main.js')
+        .pipe(shell([ 'cd ' + config.path.release + '/temp/static/admin && cat vendor/js/require.js require-config.js > include.js && ' +
+        'node ../../../../node_modules/requirejs/bin/r.js -o baseUrl=. include=include.js name=main out=all.js  mainConfigFile=require-config.js'
+        ]))
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
+}
+
+gulp.task('concatJs', gulp.series(jsMin, concatRjs));
 
 gulp.task('build', gulp.series(getVersion, 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
 
-gulp.task('development', gulp.series(function () {return copyConfig('local')}, 'clean', 'build', registerWatchers));
+gulp.task('development', gulp.series(function () {
+    return copyConfig('local');
+}, 'clean', 'build', registerWatchers));
 
-gulp.task('release', gulp.series(function () {return copyConfig('prod')},'cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
+gulp.task('release', gulp.series(function () {
+    return copyConfig('prod');
+}, 'cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
 
 gulp.task('default', gulp.series('development'));
 
