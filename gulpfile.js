@@ -3,6 +3,7 @@
 //Сборщик для src/static + установка зависимостей для src/nodejs
 
 var releaseVersion = "master";
+var EVN;
 
 var config = require('./gulp/config.json');
 var gulp = require('gulp');
@@ -26,7 +27,7 @@ var uglify = require('gulp-uglify');
 var git = require('git-rev');
 var asyncPipe = require('gulp-async-func-runner');
 var gzip = require('gulp-gzip');
-
+var _ = require('underscore');
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -137,9 +138,12 @@ function compileTemplates() {
 }
 //Компиляция статичных JADE HTML
 function compileStaticTemplates() {
+    var cnf = JSON.parse(fs.readFileSync('src/static/admin/config.json', 'utf8'));
+    var locals = _.extend({release: releaseVersion}, cnf);
+
     return gulp.src(config.path.jadeHtmlFiles)
         .pipe(plumber())
-        .pipe(jade({client: false, pretty: true}))
+        .pipe(jade({client: false, pretty: true,  locals: locals}))
         .pipe(rename({extname: ""}))
         .pipe(gulp.dest(config.path.build + '/static'));
 }
@@ -209,12 +213,19 @@ function gzipTask() {
         .pipe(gzip({gzipOptions: { level: 9 } }))
         .pipe(gulp.dest(config.path.release + '/' + releaseVersion))
 }
-
+//копирование конфигурации преложения
+function copyConfig(environment){
+    EVN = environment;
+    return gulp.src('config/' + environment + '/**/*')
+        .pipe(gulp.dest(config.path.src))
+}
 
 gulp.task('build', gulp.series(getVersion, 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
-gulp.task('development', gulp.series('clean', 'build', registerWatchers));
 
-gulp.task('release', gulp.series('cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
+gulp.task('development', gulp.series(function () {return copyConfig('local')}, 'clean', 'build', registerWatchers));
+
+gulp.task('release', gulp.series(function () {return copyConfig('prod')},'cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
+
 gulp.task('default', gulp.series('development'));
 
 

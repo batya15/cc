@@ -4,3 +4,5 @@ src/static/admin/bower_components
 src/static/admin/vendor
 build
 release
+src/static/admin/config.json
+src/nodejs/config.json

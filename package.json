@@ -50,6 +50,7 @@
     "main-bower-files": "^2.4.1",
     "requirejs": "*",
     "rimraf": "*",
-    "through2": "^0.6.1"
+    "through2": "^0.6.1",
+    "underscore": "^1.7.0"
   }
 }
