@@ -1,6 +1,6 @@
 "use strict";
 
-define(['domain/ping'], function (ping) {
+define('main', ['domain/ping'], function (ping) {
 
     var lang = {
         'login': 'Логин',
@@ -11,11 +11,17 @@ define(['domain/ping'], function (ping) {
         'email': 'Почта'
     };
 
+    setInterval(function () {
+        ping(function (data) {
+            console.info(data);
+        });
+    }, 1000);
+
     return function (key) {
         if (lang.hasOwnProperty(key)) {
-            return lang[key]
+            return lang[key];
         } else {
-            return key
+            return key;
         }
 
     };

@@ -29,7 +29,7 @@ var git = require('git-rev');
 var asyncPipe = require('gulp-async-func-runner');
 var gzip = require('gulp-gzip');
 var _ = require('underscore');
-var rjs = require('gulp-requirejs');
+var order = require("gulp-order");
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -209,7 +209,6 @@ function copyStaticFileRelease() {
 //Минимизация JS
 function jsMin() {
     return gulp.src([config.path.build + '/**/*.js', "!**/test/**", "!**/css.js", "!**/css-builder.js"], {base: 'build'})
-        .pipe(uglify())
         .pipe((through.obj(function (file, enc, cb) {
             var c = String(file.contents)
                 .replace(/"css\![\.\/\w\-]+"[,]*/g, "")
@@ -221,15 +220,37 @@ function jsMin() {
         })))
         .pipe(gulp.dest(config.path.release + '/temp'));
 }
-function concatRjs() {
-    gulp.src(config.path.release + '/temp/static/admin/main.js')
-        .pipe(shell([ 'cd ' + config.path.release + '/temp/static/admin && cat vendor/js/require.js require-config.js > include.js && ' +
-        'node ../../../../node_modules/requirejs/bin/r.js -o baseUrl=. include=include.js name=main out=all.js  mainConfigFile=require-config.js'
+
+function concatNotAmd() {
+    return gulp.src([config.path.release + '/temp/**/require.js', config.path.release + '/temp/**/require-config.js'])
+        .pipe(order([
+            "**/require.js",
+            "**/require-config.js"
         ]))
-        .pipe(gulp.dest(config.path.release + '/' + releaseVersion));
+        .pipe(concat("include.js"))
+        .pipe(gulp.dest(config.path.release + '/temp'));
+
 }
 
-gulp.task('concatJs', gulp.series(jsMin, concatRjs));
+function concatRjs() {
+    return gulp.src(config.path.release + '/temp/static/admin/main.js', {baseUrl: config.path.release + '/temp/static/admin/'})
+        .pipe(shell([ 'cd ' + config.path.release + '/temp/static/admin &&' +
+        'node ../../../../node_modules/requirejs/bin/r.js -o baseUrl=. name=main out=all.js  mainConfigFile=require-config.js'
+        ]))
+        .pipe(concat("all.js"));
+}
+
+function concatAllJs() {
+    return gulp.src([config.path.release + '/temp/static/admin/all.js', config.path.release + '/temp/include.js'])
+        .pipe(order([
+            "**/include.js",
+            "**/all.js"
+        ]))
+        .pipe(concat("main.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest(config.path.release + '/' + releaseVersion + '/static/admin'));
+
+}
 
 gulp.task('build', gulp.series(getVersion, 'jsHint', installModules, 'bower', gulp.parallel(copyStaticClientFiles, compileStyle, compileTemplates, compileStaticTemplates)));
 
@@ -239,7 +260,7 @@ gulp.task('development', gulp.series(function () {
 
 gulp.task('release', gulp.series(function () {
     return copyConfig('prod');
-}, 'cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), gzipTask));
+}, 'cleanHard', 'build', gulp.parallel(cssMinConcatAdmin, jsMin, htmlMin, copyStaticFileRelease), concatNotAmd, concatRjs, concatAllJs, gzipTask));
 
 gulp.task('default', gulp.series('development'));
 
