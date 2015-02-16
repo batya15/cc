@@ -2,10 +2,10 @@ require.config({
     waitSeconds: 15,
     baseUrl: '/',
     shim: {
-        'vendor/jquery': {
+        'vendor/js/jquery': {
             exports: '$'
         },
-        'vendor/underscore': {
+        'vendor/js/underscore': {
             exports: '_'
         },
         'vendor/backbone': {
@@ -25,7 +25,9 @@ require.config({
     'map': {
         '*': {
             'css': 'vendor/js/css', // or whatever the path to require-css is
-            'jquery': 'vendor/js/jquery'
+            'jquery': 'vendor/js/jquery',
+            'underscore': 'vendor/js/underscore',
+            'backbone': 'vendor/js/backbone'
         }
     }
 });

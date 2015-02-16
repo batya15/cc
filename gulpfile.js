@@ -30,6 +30,7 @@ var asyncPipe = require('gulp-async-func-runner');
 var gzip = require('gulp-gzip');
 var _ = require('underscore');
 var order = require("gulp-order");
+var autoprefixer = require('gulp-autoprefixer');
 
 //Копирование главных файлов BOWER в папку vendor
 require('./gulp/bower')(gulp);
@@ -55,6 +56,10 @@ function compileStyle() {
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass({quiet: true}))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.path.build + '/static'));
 }

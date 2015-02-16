@@ -22,7 +22,8 @@
     "define",
     "notify",
     "QUnit",
-    "expect"
+    "expect",
+    "_"
   ],
 
 
