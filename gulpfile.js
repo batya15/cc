@@ -112,7 +112,7 @@ function compileTemplates() {
     return gulp.src(config.path.jadeFiles)
         .pipe(plumber())
         .pipe(jade({client: true, pretty: true}))
-        .pipe(wrap({deps: ['vendor/runtime', '{cssIncludePlaceholder}'], params: ['jade']}))
+        .pipe(wrap({deps: ['vendor/js/runtime', '{cssIncludePlaceholder}'], params: ['jade']}))
         .pipe(through.obj(function (file, enc, cb) {
             var fn = file.history[0];
             fn = fn.split(path.sep);
@@ -156,11 +156,11 @@ function compileStaticTemplates() {
 }
 //Вотчеры
 function registerWatchers() {
-    livereload.listen();
+    //livereload.listen();
     watch(config.staticFiles, {verbose: true, name: 'copy-changed-files', base: 'src'}, function (files, done) {
         return files.pipe(plumber())
             .pipe(gulp.dest(config.path.build))
-            .pipe(livereload({auto: false}))
+            //.pipe(livereload({auto: false}))
             .on('end', done);
     });
     watch(config.path.jadeHtmlFiles, {verbose: true, name: 'jade-static-compile-files'}, compileStaticTemplates);
