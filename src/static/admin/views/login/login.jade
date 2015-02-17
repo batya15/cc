@@ -1,1 +1,15 @@
-div asdf
+.z-depth-2
+    .red.darken-1.message.z-depth-1.hide
+        p Неверный логин или пароль
+    form
+        .input-field
+            i.mdi-action-account-circle.prefix
+            input#login.validate(type='text', autofocus)
+            label(for='login') Логин
+        .input-field
+            i.mdi-notification-vpn-lock.prefix
+            input#password.validate(type='password')
+            label(for='password') Пароль
+        .center-align.submitButton
+            button#submit.btn-large(type="submit", name="action", disabled) Войти
+                i.mdi-content-send.right

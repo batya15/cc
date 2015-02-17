@@ -5,7 +5,37 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: red;
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
+
+  & > div {
+    height: 100%;
+    width: 100%;
+    padding: 20px 25px;
+  }
+
+  .submitButton {
+    padding: 45px;
+  }
+
+  .message {
+    font-size: 14px;
+    color: white;
+    padding: 5px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -53px;
+    text-align: center;
+
+    &.hide {
+      display: none;
+    }
+
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
 }

@@ -20,6 +20,12 @@ require.config({
                 'vendor/js/jquery'
             ],
             exports: '$'
+        },
+        'vendor/js/materialize': {
+            deps: [
+                'vendor/js/jquery'
+            ],
+            exports: '$'
         }
     },
     'map': {
