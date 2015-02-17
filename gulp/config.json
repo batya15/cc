@@ -1,7 +1,7 @@
 {
   "path": {
     "src": "src",
-    "jsHint": ["src/static/**/*.js", "!**/bower_components/**", "!**/vendor/**"],
+    "jsHint": ["src/static/**/*.js", "!**/bower_components/**", "!**/vendor/**", "!**/qunit.js"],
     "scssFiles": ["src/static/**/*.scss", "!**/bower_components/**"],
     "jadeFiles": ["src/static/**/*.jade", "!**/bower_components/**", "!**/*.html.jade"],
     "jadeHtmlFiles": ["src/static/**/*.html.jade", "!**/bower_components/**"],
