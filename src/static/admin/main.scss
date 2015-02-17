@@ -1,0 +1,30 @@
+.v-mainApp {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  padding-top: 50px;
+
+  .topPanel {
+    height: 50px;
+    position: absolute;
+    width: 100%;
+    background: url("/img/logo.png") left top no-repeat #fff;
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 3px 0;
+  }
+
+  .leftPanel {
+    float: left;
+    height: 100%;
+    word-wrap: break-word;
+    font-size: 0;
+  }
+
+  .contentPanel {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+  }
+
+}

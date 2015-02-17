@@ -1,4 +1,15 @@
+* {
+  outline: none;
+}
+
+html,
 body {
-  padding: 0;
+  width: 100%;
   margin: 0;
+  height: 100%;
+  padding: 0;
+}
+
+.clr {
+  clear: both;
 }
