@@ -21,7 +21,7 @@ require.config({
             ],
             exports: '$'
         },
-        'vendor/js/materialize': {
+        'vendor/js/bootstrap': {
             deps: [
                 'vendor/js/jquery'
             ],
@@ -33,7 +33,8 @@ require.config({
             'css': 'vendor/js/css', // or whatever the path to require-css is
             'jquery': 'vendor/js/jquery',
             'underscore': 'vendor/js/underscore',
-            'backbone': 'vendor/js/backbone'
+            'backbone': 'vendor/js/backbone',
+            'spin': 'vendor/js/spin'
         }
     }
 });

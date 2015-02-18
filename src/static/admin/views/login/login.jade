@@ -1,15 +1,18 @@
-.z-depth-2
-    .red.darken-1.message.z-depth-1.hide
-        p Неверный логин или пароль
+.shadow-z-1
+    .message.alert.alert-danger.text-center.alert-dismissible(role="alert")
+        button.close(type="button", data-dismiss="alert", aria-label="Close")
+            span(aria-hidden="true")!= '&times;'
+        strong Неверный логин или пароль
+        p У вас осталось 2 попытки
+    .text-center
+        h4 Вход с систему
     form
-        .input-field
-            i.mdi-action-account-circle.prefix
-            input#login.validate(type='text', autofocus)
+        .form-group
             label(for='login') Логин
-        .input-field
-            i.mdi-notification-vpn-lock.prefix
-            input#password.validate(type='password')
+            input#login.form-control(type='text', autofocus, placeholder="Введите логин")
+        .form-group
             label(for='password') Пароль
-        .center-align.submitButton
-            button#submit.btn-large(type="submit", name="action", disabled) Войти
+            input#password.form-control(type='text', placeholder="Введите пароль")
+        .text-center.submitButton
+            button#submit.btn.btn-lg.btn-primary.ladda-button(data-style="zoom-in") Войти
                 i.mdi-content-send.right

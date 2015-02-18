@@ -1,6 +1,7 @@
-define(['backbone', './login.jade', 'domain/auth'], function (Backbone, template) {
+define(['backbone', './login.jade', 'domain/auth', 'vendor/js/ladda'], function (Backbone, template) {
 
     var auth = require('domain/auth');
+    var Ladda = require('vendor/js/ladda');
 
     return Backbone.View.extend({
         name: 'loginForm',
@@ -29,7 +30,9 @@ define(['backbone', './login.jade', 'domain/auth'], function (Backbone, template
 
             e.preventDefault();
 
-            button.addClass('wait').prop('disabled', true);
+            var l = Ladda.create(button.get(0));
+            l.start();
+            //button.addClass('wait').prop('disabled', true);
             auth.login(login, password, _.bind(function(err){
                 button.removeClass('wait').prop('disabled', false);
                 this.$('input').prop('disabled', false);

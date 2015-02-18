@@ -1,6 +1,6 @@
 "use strict";
 
-define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/materialize'],
+define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap'],
     function (Backbone, $) {
 
     var auth = require('domain/auth'),

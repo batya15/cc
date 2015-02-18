@@ -1,16 +1,17 @@
 doctype html
 html
-  head(lang='en')
-    meta(charset='UTF-8')
-    if (environment == 'prod')
-        script(data-main="main" src="/main.js")
-        link(rel='stylesheet', href='styles.css')
-    else
-        script(data-main="main" src="/vendor/js/require.js")
-        script(src="/require-config.js")
-        link(rel='stylesheet', href='/styles/main.css')
-        link(rel='stylesheet', href='/vendor/css/materialize.css')
-        link(rel='stylesheet', href='/vendor/css/normalize.css')
-    title= release + '/' + environment + ' Административная панель'
-  body
-    div Соединение
+    head(lang='en')
+        meta(charset='UTF-8')
+        if (environment == 'prod')
+            script(data-main="main" src="/main.js")
+            link(rel='stylesheet', href='styles.css')
+        else
+            script(data-main="main" src="/vendor/js/require.js")
+            script(src="/require-config.js")
+            link(rel='stylesheet', href='/styles/main.css')
+            link(rel='stylesheet', href='/vendor/css/normalize.css')
+            link(rel='stylesheet', href='/vendor/css/bootstrap.css')
+            link(rel='stylesheet', href='/vendor/css/ladda-themeless.css')
+        title= release + '/' + environment + ' Административная панель'
+    body
+        div Соединение
