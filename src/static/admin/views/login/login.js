@@ -23,23 +23,22 @@ define(['backbone', './login.jade', 'domain/auth', 'vendor/js/ladda'], function 
             }
         },
         login: function(e) {
-            var button = $(e.currentTarget),
-                divMessage = this.$('.message'),
-                login = this.$('#login').prop('disabled', true).val(),
-                password = this.$('#password').prop('disabled', true).val;
+            var divMessage = this.$('.message'),
+                login = this.$('#login').val(),
+                password = this.$('#password').val();
 
             e.preventDefault();
+            if (!this.elProggres) {
+                this.elProggres = Ladda.create(this.$('#submit').get(0));
+            }
 
-            var l = Ladda.create(button.get(0));
-            l.start();
-            //button.addClass('wait').prop('disabled', true);
+            this.elProggres.start();
             auth.login(login, password, _.bind(function(err){
-                button.removeClass('wait').prop('disabled', false);
-                this.$('input').prop('disabled', false);
+                this.elProggres.stop();
                 if (err) {
-                    divMessage.text(err).removeClass('hide');
+                    divMessage.text(err).show();
                     setTimeout(function() {
-                        divMessage.addClass('hide');
+                        divMessage.hide();
                     }, 2000);
                 }
             }, this));
