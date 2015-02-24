@@ -4,7 +4,6 @@ define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/
     function (Backbone, $) {
 
     var auth = require('domain/auth'),
-        ping = require('domain/ping'),
         template = require('main.jade'),
         Login = require('views/login/login');
 

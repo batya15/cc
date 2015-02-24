@@ -10,11 +10,19 @@ define([
         initialize: function () {
             this.socket = io('auth');
         },
+        reconnect: function (cb) {
+            this.socket.io.disconnect();
+            this.socket.io.skipReconnect = false;
+            this.socket.io.reconnect();
+            if (_.isFunction(cb)) {
+                cb.apply(this, arguments);
+            }
+        },
         checkLogin: function (cb) {
             this.socket.emit('checkLogin', _.bind(function (err, user) {
                 if (err) {
                     this.clear({silent: true});
-                    $.removeCookie('sessionKey', { path: '/'});
+                    $.removeCookie('sessionKey', {path: '/'});
                 } else {
                     this.set(user, {silent: true});
                 }
@@ -29,22 +37,29 @@ define([
                 if (!err && sessionKey) {
                     $.cookie('sessionKey', sessionKey, {path: '/'});
                     this.set(user);
+                    this.reconnect(function () {
+                        if (_.isFunction(cb)) {
+                            cb.apply(this, arguments);
+                        }
+                    });
                 } else {
                     this.clear();
-                    $.removeCookie('sessionKey', { path: '/'});
-                }
-                if (_.isFunction(cb)) {
-                    cb.apply(this, arguments);
+                    $.removeCookie('sessionKey', {path: '/'});
+                    if (_.isFunction(cb)) {
+                        cb.apply(this, arguments);
+                    }
                 }
             }, this));
         },
         logout: function (cb) {
-            this.socket.emit('logout', _.bind(function (data) {
+            this.socket.emit('logout', _.bind(function () {
                 this.clear();
-                $.removeCookie('sessionKey', { path: '/'});
-                if (_.isFunction(cb)) {
-                    cb.apply(this, arguments);
-                }
+                $.removeCookie('sessionKey', {path: '/'});
+                this.reconnect(function () {
+                    if (_.isFunction(cb)) {
+                        cb.apply(this, arguments);
+                    }
+                });
             }, this));
         }
     });

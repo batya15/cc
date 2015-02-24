@@ -41,8 +41,6 @@ Auth.prototype.login = function (login, password, ip, cb) {
             } else {
                 dao.setFailLogin(idLog, function(){
                     var lastTime = new Date(Date.now() - config.get('blocked').time).toMysqlFormat();
-                    var r = new Date();
-                    console.log(lastTime, r);
                     dao.getCountFail({
                         time: lastTime,
                         login: login

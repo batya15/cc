@@ -13,7 +13,6 @@ module.exports = function (namespace, notAuth) {
         var ip  = client.handshake.address;
         var key = (client.request.headers.cookie)? client.request.headers.cookie['sessionKey']: '';
 
-        console.log(client.handshake.userId);
         auth.checkLoginBySID(ip, key, function (err, res) {
             if (res && !err) {
                 client.handshake.userId = res.id;
