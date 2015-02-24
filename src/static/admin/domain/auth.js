@@ -11,13 +11,14 @@ define([
             this.socket = io('auth');
         },
         checkLogin: function (cb) {
-            this.socket.on('user', _.bind(function (err, user) {
+            this.socket.emit('checkLogin', _.bind(function (err, user) {
                 if (err) {
-                    this.clear();
+                    this.clear({silent: true});
                     $.removeCookie('sessionKey', { path: '/'});
                 } else {
-                    this.set(user);
+                    this.set(user, {silent: true});
                 }
+                this.trigger('change');
                 if (_.isFunction(cb)) {
                     cb.apply(this, arguments);
                 }

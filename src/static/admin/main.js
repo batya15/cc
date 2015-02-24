@@ -14,15 +14,15 @@ define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/
         },
         initialize: function () {
             this.childrens  = [];
-            this.listenTo(auth, 'change:id', this.loginLogout);
+            this.listenTo(auth, 'change', this.loginLogout);
             auth.checkLogin();
         },
         render: function () {
             console.log('RENDER');
             this.$el.html(template());
-            this.loginLogout();
         },
         loginLogout: function() {
+            console.log('lauth');
             this.removeChildren();
             if (auth.isNew()) {
                 this.initializeLoginForm();

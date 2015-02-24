@@ -6,17 +6,15 @@ var socket = require("entity/socket")('auth', true),
 
 socket.on('connection', function (socket) {
 
-    if (socket.handshake.hasOwnProperty('userId')) {
-        users.getUserById(socket.handshake.userId, function (err, user) {
-            socket.emit('user', null, user);
-        });
-    } else {
-        socket.emit('user', new Error('Auth'));
-    }
-
     socket.on('login', function(data, cb) {
         var ip  = socket.handshake.address;
         auth.login(data.login, data.password, ip, cb);
+    });
+
+    socket.on('checkLogin', function(cb) {
+        var ip  = socket.handshake.address;
+        var key = (socket.request.headers.cookie)? socket.request.headers.cookie['sessionKey']: '';
+        auth.checkLogin(ip, key, cb);
     });
 
     socket.on('logout', function(cb) {

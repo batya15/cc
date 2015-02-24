@@ -2,10 +2,12 @@
 
 var db = require("entity/db");
 
-var SELECT_SESSION_KEY = "SELECT * FROM  `sessionKey` WHERE  `sid` = ?";
+var SELECT_SESSION_KEY = "SELECT * FROM  `sessionKey` WHERE  `sid` = ? AND `date` > ?";
 
-function daoCheckSid (sid, cb) {
-    db.queryRow(SELECT_SESSION_KEY, [sid], function (err, row) {
+function daoCheckSid (sid, timeLimit, cb) {
+    console.log(timeLimit);
+    db.queryRow(SELECT_SESSION_KEY, [sid, timeLimit], function (err, row) {
+        console.log(row);
         var result;
         if (row) {
             result = {
