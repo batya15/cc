@@ -23,7 +23,8 @@
     "jade": "~1.8.1",
     "normalize.css": "~3.0.2",
     "bootstrap": "~3.3.2",
-    "ladda-bootstrap": "~0.1.0"
+    "ladda-bootstrap": "~0.1.0",
+    "svg-loaders": "~1.0.2"
   },
   "overrides": {
     "socket.io-client": {
@@ -31,6 +32,9 @@
     },
     "jade": {
       "main": "runtime.js"
+    },
+    "svg-loaders": {
+      "main": "svg-loaders/puff.svg"
     }
   }
 }

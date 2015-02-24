@@ -1,26 +1,24 @@
 "use strict";
 
-define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap'],
-    function (Backbone, $) {
+define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap'],
+    function (Backbone) {
 
     var auth = require('domain/auth'),
         template = require('main.jade'),
         Login = require('views/login/login');
 
     var MainView = Backbone.View.extend({
-        attributes: {
-            class: 'v-mainApp'
-        },
+        el: 'body',
         initialize: function () {
             this.childrens  = [];
             this.listenTo(auth, 'change', this.loginLogout);
-            auth.checkLogin();
-        },
-        render: function () {
-            this.$el.html(template());
+            setTimeout(function () {
+                auth.checkLogin();
+            }, 0);
         },
         loginLogout: function() {
             this.removeChildren();
+            this.$el.html(template());
             if (auth.isNew()) {
                 this.initializeLoginForm();
             } else {
@@ -44,10 +42,7 @@ define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/
         }
     });
 
-    var mainView = new MainView();
-    $('body').html(mainView.$el);
-    mainView.render();
+    return new MainView();
 
-    return mainView;
 });
 
