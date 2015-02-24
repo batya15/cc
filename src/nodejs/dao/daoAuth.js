@@ -2,33 +2,57 @@
 
 var db = require("entity/db");
 
-var SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM  `users` WHERE `login` = ? AND  `password` = ?";
+var SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM  `users` WHERE `login` = ? AND `password` = ? AND `blocked` = FALSE";
 var SELECT_USER_BY_LOGIN = "SELECT * FROM  `users` WHERE `login` = ?";
 var ADD_NEW_SESSION_KEY = "INSERT INTO `sessionKey` ( `sid` , `userId`) VALUES ( ?, ?);";
+var SELECT_SESSION_KEY = "SELECT * FROM  `sessionKey` WHERE  `sid` = ? AND `date` > ?";
 
+var LOG_LOGIN_USER = 'LOG_loginUser';
 
+/**
+ * Логирование попытки входа
+ * @param data
+ * @param cb
+ */
 module.exports.log = function (data, cb) {
-    db.insert('LOG_loginUser', {
+    db.insert(LOG_LOGIN_USER, {
         login: data.login,
         ip: data.ip
     }, cb);
 };
 
+/**
+ * Установить что текузий вход был неудачным
+ * @param id
+ * @param cb
+ */
 module.exports.setFailLogin = function (id, cb) {
-    db.update('LOG_loginUser', {
+    db.update(LOG_LOGIN_USER, {
         id: id,
         fail: true
     }, cb);
 };
 
+/**
+ * Получение всех неудачных входов за определенный период
+ * @param data
+ * @param cb
+ */
 module.exports.getCountFail = function (data, cb) {
-    db.count('LOG_loginUser', {
+    db.count(LOG_LOGIN_USER, {
         login: data.login,
         dateTime: '>' + data.time,
         fail: true
     }, cb);
 };
 
+/**
+ * Поиск userId по логину и хэшу
+ * @param login
+ * @param hash
+ * @param ip
+ * @param cb
+ */
 module.exports.getUserByLoginPassword = function (login, hash, ip, cb) {
     db.queryRow(SELECT_USER_BY_LOGIN_PASSWORD, [login, hash], function (err, row) {
         var result;
@@ -41,6 +65,12 @@ module.exports.getUserByLoginPassword = function (login, hash, ip, cb) {
     });
 };
 
+/**
+ * Добавление новой сессии к пользователю
+ * @param hash
+ * @param id
+ * @param cb
+ */
 module.exports.sessionKey = function (hash, id, cb) {
     db.queryRow(ADD_NEW_SESSION_KEY, [hash, id], function (err, row) {
         var result;
@@ -48,6 +78,11 @@ module.exports.sessionKey = function (hash, id, cb) {
     });
 };
 
+/**
+ * Блокировка пользователя
+ * @param login
+ * @param cb
+ */
 module.exports.blockedUserByLogin = function (login, cb) {
     db.queryRow(SELECT_USER_BY_LOGIN, [login], function (err, row) {
         if (err) {
@@ -60,5 +95,23 @@ module.exports.blockedUserByLogin = function (login, cb) {
                 cb(err, res);
             });
         }
+    });
+};
+
+/**
+ * Получение id по SID
+ * @param sid
+ * @param timeLimit
+ * @param cb
+ */
+module.exports.getUserIdBySID = function (sid, timeLimit, cb) {
+    db.queryRow(SELECT_SESSION_KEY, [sid, timeLimit], function (err, row) {
+        var result;
+        if (row) {
+            result = {
+                userId: row.userId
+            };
+        }
+        cb(err, result);
     });
 };

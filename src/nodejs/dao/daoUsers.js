@@ -21,9 +21,14 @@ function excludeField(obj) {
 }
 
 var DaoUsers = function () {
-
+    this.name = 'DaoUsers';
 };
 
+/**
+ * Получение информации о пользователе по ID
+ * @param id
+ * @param cb
+ */
 DaoUsers.prototype.getUserById = function (id, cb) {
     db.queryRow(SELECT_USER_BY_ID, [id], function (err, row) {
         excludeField(row);
@@ -31,6 +36,10 @@ DaoUsers.prototype.getUserById = function (id, cb) {
     });
 };
 
+/**
+ * Получение всех пользователей
+ * @param cb
+ */
 DaoUsers.prototype.getAllUsers = function (cb) {
     db.query(SELECT_ALL_USERS, function (err, row) {
         excludeField(row);
@@ -59,6 +68,5 @@ DaoUsers.prototype.resetPassword = function (id, hash, cb) {
         cb(err, row);
     });
 };
-
 
 module.exports = new DaoUsers();

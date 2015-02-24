@@ -14,7 +14,7 @@ socket.on('connection', function (socket) {
     socket.on('checkLogin', function(cb) {
         var ip  = socket.handshake.address;
         var key = (socket.request.headers.cookie)? socket.request.headers.cookie['sessionKey']: '';
-        auth.checkLogin(ip, key, cb);
+        auth.checkLoginBySID(ip, key, cb);
     });
 
     socket.on('logout', function(cb) {

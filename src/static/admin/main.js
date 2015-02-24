@@ -18,11 +18,9 @@ define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/
             auth.checkLogin();
         },
         render: function () {
-            console.log('RENDER');
             this.$el.html(template());
         },
         loginLogout: function() {
-            console.log('lauth');
             this.removeChildren();
             if (auth.isNew()) {
                 this.initializeLoginForm();
@@ -50,12 +48,6 @@ define('main', ['backbone', 'jquery','domain/ping', 'domain/auth', 'views/login/
     var mainView = new MainView();
     $('body').html(mainView.$el);
     mainView.render();
-
-    setInterval(function () {
-        ping(function (data) {
-            console.info(data);
-        });
-    }, 1000);
 
     return mainView;
 });

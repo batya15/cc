@@ -3,26 +3,23 @@
 var dao = require('dao/daoAuth'),
     config = require('util/config'),
     crypto = require('crypto'),
-    users = require("services/users"),
-    checkSid = require("services/checkSid");
+    users = require("services/users");
 
 var Auth = function () {};
 
 function md5(string) {
     return crypto.createHash('md5').update(string).digest('hex');
 }
-
-function twoDigits(d) {
-    if(0 <= d && d < 10) {
-        return "0" + d.toString();
-    }
-    if(-10 < d && d < 0) {
-        return "-0" + (-1*d).toString();
-    }
-    return d.toString();
-}
-
 Date.prototype.toMysqlFormat = function() {
+    function twoDigits(d) {
+        if(0 <= d && d < 10) {
+            return "0" + d.toString();
+        }
+        if(-10 < d && d < 0) {
+            return "-0" + (-1*d).toString();
+        }
+        return d.toString();
+    }
     return this.getFullYear() + "-" + twoDigits(1 + this.getMonth()) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
 };
 
@@ -68,16 +65,20 @@ Auth.prototype.logout = function (hash, cb) {
     cb(true);
 };
 
-Auth.prototype.checkLogin = function (ip, key, cb) {
-    var sid = md5(key + ip),
+Auth.prototype.checkLoginBySID = function (ip, sidClient, cb) {
+    var sid = md5(sidClient + ip),
         limitTime = new Date(Date.now() - config.get('sidTime')).toMysqlFormat();
-    checkSid(sid, limitTime, function (err, res) {
+    dao.getUserIdBySID(sid, limitTime, function (err, res) {
         if (!err && res) {
             users.getUserById(res.userId, function (err, user) {
-                cb(err, user);
+                if (err || user.blocked) {
+                    cb(new Error('FAIL SID'), null);
+                } else {
+                    cb(err, user);
+                }
             });
         } else {
-            cb(new Error('FAIL SID'), res);
+            cb(new Error('FAIL SID'), null);
         }
     });
 };
