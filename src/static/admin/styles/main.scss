@@ -11,6 +11,7 @@ body {
   background-color: #3498DB !important;
 }
 
+
 .preLoaderMain {
   margin: auto;
   position: absolute;
@@ -20,6 +21,10 @@ body {
   right: 0;
   width: 50px;
   height: 50px;
+}
+::selection {
+   color: #fff;
+   background-color: #0ba5b7;
 }
 
 .clr {
