@@ -55,7 +55,7 @@ function compileStyle() {
     return gulp.src(config.path.scssFiles)
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        .pipe(sass({quiet: true}))
+        .pipe(sass({quiet: true, includePaths: ['src/static/admin/']}))
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false

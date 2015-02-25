@@ -1,7 +1,8 @@
-define(['backbone', './login.jade', 'domain/auth', 'vendor/js/ladda'], function (Backbone, template) {
+define(['backbone', 'underscore', './login.jade', 'domain/auth', 'vendor/js/ladda'], function (Backbone, _, template) {
 
-    var auth = require('domain/auth');
-    var Ladda = require('vendor/js/ladda');
+    var auth = require('domain/auth'),
+        Ladda = require('vendor/js/ladda');
+
 
     return Backbone.View.extend({
         name: 'loginForm',

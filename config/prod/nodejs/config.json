@@ -13,5 +13,10 @@
     "passwordGmail" : "batya1988"
   },
   "contentPath": "d:\\content\\",
-  "contentUrl": "/content/"
+  "contentUrl": "/content/",
+  "blocked": {
+    "time": 1200000,
+    "attempt": 10
+  },
+  "sidTime": 172800000
 }

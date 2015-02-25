@@ -14,7 +14,7 @@ define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', '
             this.listenTo(auth, 'change', this.loginLogout);
             setTimeout(function () {
                 auth.checkLogin();
-            }, 0);
+            }, 1000);
         },
         loginLogout: function() {
             this.removeChildren();
