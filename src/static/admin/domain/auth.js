@@ -34,12 +34,13 @@ define([
         },
         login: function (login, password, cb) {
             this.socket.emit('login', {"login": login, "password": password}, _.bind(function (err, sessionKey, user) {
+                var _arguments = arguments;
                 if (!err && sessionKey) {
                     $.cookie('sessionKey', sessionKey, {path: '/'});
                     this.set(user);
                     this.reconnect(function () {
                         if (_.isFunction(cb)) {
-                            cb.apply(this, arguments);
+                            cb.apply(this, _arguments);
                         }
                     });
                 } else {
@@ -53,11 +54,12 @@ define([
         },
         logout: function (cb) {
             this.socket.emit('logout', _.bind(function () {
+                var _arguments = arguments;
                 this.clear();
                 $.removeCookie('sessionKey', {path: '/'});
                 this.reconnect(function () {
                     if (_.isFunction(cb)) {
-                        cb.apply(this, arguments);
+                        cb.apply(this, _arguments);
                     }
                 });
             }, this));

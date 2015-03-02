@@ -18,7 +18,8 @@ socket.on('connection', function (socket) {
     });
 
     socket.on('logout', function(cb) {
-        auth.logout(socket.request.headers.cookie['sessionKey'], cb);
+        var key = (socket.request.headers.cookie)? socket.request.headers.cookie['sessionKey']: '';
+        auth.logout(key, cb);
     });
 
 

@@ -3,16 +3,15 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
 
     QUnit.module('domain/auth');
 
-    var login = 'test',
-        pass  = 'test',
-        hash  = 'test';
+    var login = 'root',
+        pass  = '123';
 
     $.removeCookie('sessionKey', { path: '/'});
 
     QUnit.asyncTest('Проверка не залогиненого пользователя', function (assert) {
         expect(1);
 
-        auth.checkLogin(function(user){
+        auth.checkLogin(function(err, user){
             assert.ok(user === null, 'Прислан пустой результат, пользователь не залогинен');
             QUnit.start();
         });
@@ -22,10 +21,10 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
         expect(4);
 
         auth.login(login+'1', pass, function(err, sessionKey){
-            assert.ok(err === 'ERR_LOGIN', 'Ошибка входа');
+            assert.ok(err === 'ERROR_AUTH', 'Ошибка входа');
             assert.ok(!sessionKey, 'Ключ сессии пустой');
             assert.ok(auth.isNew(), 'Backbone модель очистилась');
-            assert.ok(!$.cookie('session_key'), 'куки удалились');
+            assert.ok(!$.cookie('sessionKey'), 'куки удалились');
             QUnit.start();
         });
     });
@@ -35,10 +34,10 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
         expect(4);
 
         auth.login(login, pass + '1', function(err, sessionKey){
-            assert.ok(err == 'ERR_LOGIN', 'Ошибка входа');
+            assert.ok(err == 'ERROR_AUTH', 'Ошибка входа');
             assert.ok(auth.isNew(), 'Backbone модель очистилась');
             assert.ok(!sessionKey, 'Ключ сессии пустой');
-            assert.ok(!$.cookie('session_key') , 'куки удалились');
+            assert.ok(!$.cookie('sessionKey') , 'куки удалились');
             QUnit.start();
         });
     });
@@ -46,11 +45,11 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
     QUnit.asyncTest('Коректный вход', function (assert) {
         expect(4);
 
-        auth.login('test', 'test', function(err, sessionKey, user){
+        auth.login(login, pass, function(err, sessionKey, user){
             assert.ok(!err, 'Ошибок входе нет');
             assert.ok(sessionKey, 'Ключ сесии есть!');
             assert.ok(auth.get('name') == user.name, 'Backbone модель создана');
-            assert.ok($.cookie('session_key') == sessionKey, 'куки установились!');
+            assert.ok($.cookie('sessionKey') == sessionKey, 'куки установились!');
             QUnit.start();
         });
     });
@@ -58,9 +57,9 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
     QUnit.asyncTest('Проверка залогиненого пользователя', function (assert) {
         expect(2);
 
-        auth.checkLogin(function(user){
-            assert.ok(user.name == login, 'Объект пользователя пришел');
-            assert.ok(auth.name == login, 'Модель создана');
+        auth.checkLogin(function(err, user){
+            assert.ok(user.login == login, 'Объект пользователя пришел');
+            assert.ok(auth.get('login') == login, 'Модель создана');
             QUnit.start();
         });
     });
@@ -71,7 +70,7 @@ define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
         auth.logout(function(res){
             assert.ok(res === true, 'Успех при разлогировании');
             assert.ok(auth.isNew(), 'Backbone модель очистилась');
-            assert.ok(!$.cookie('session_key'), 'куки удалились');
+            assert.ok(!$.cookie('sessionKey'), 'куки удалились');
             QUnit.start();
         });
     });
