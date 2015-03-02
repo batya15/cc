@@ -22,7 +22,7 @@ module.exports = function(gulp, paths, src) {
     }
 
     function bowerFonts() {
-        var filter = gulpFilter(['*.eot', '*.svg', '*.ttf', '*.woff']);
+        var filter = gulpFilter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']); 
         return gulp
             .src(mainBowerFiles({paths: config.path.staticAdmin}))
             .pipe(filter)
