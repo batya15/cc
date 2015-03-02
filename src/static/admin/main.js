@@ -1,11 +1,13 @@
 "use strict";
 
-define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap'],
+define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap',
+        'views/userMenu/userMenu'],
     function (Backbone) {
 
     var auth = require('domain/auth'),
         template = require('main.jade'),
-        Login = require('views/login/login');
+        Login = require('views/login/login'),
+        UserMenu = require('views/userMenu/userMenu');
 
     var MainView = Backbone.View.extend({
         el: 'body',
@@ -14,7 +16,7 @@ define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', '
             this.listenTo(auth, 'change', this.loginLogout);
             setTimeout(function () {
                 auth.checkLogin();
-            }, 1000);
+            }, 0);
         },
         loginLogout: function() {
             this.removeChildren();
@@ -32,7 +34,11 @@ define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', '
             this.children = [];
         },
         initializeInterface: function() {
-            // Загрузка основного интерфейса
+            var userMenu = new UserMenu({model: auth});
+            userMenu.$el.appendTo(this.$('.topPanel'));
+            userMenu.render();
+            this.childrens.push(userMenu);
+
         },
         initializeLoginForm: function() {
             // Загрузка формы в хода
