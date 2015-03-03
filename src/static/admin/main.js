@@ -1,7 +1,7 @@
 "use strict";
 
-define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/login', 'main.jade', 'vendor/js/bootstrap',
-        'views/userMenu/userMenu'],
+define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/Login', 'main.jade', 'vendor/js/bootstrap',
+        'views/userMenu/UserMenu'],
     function (Backbone) {
 
     var auth = require('domain/auth'),
