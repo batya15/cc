@@ -33,6 +33,10 @@ define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/Login', '
             });
             this.children = [];
         },
+        remove: function() {
+            this._removeChildren();
+            Backbone.View.prototype.remove.apply(this);
+        },
         initializeInterface: function() {
             var main = new Main({model: auth});
             main.$el.appendTo(this.$el);
