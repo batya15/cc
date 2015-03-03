@@ -1,0 +1,119 @@
+.v-main {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: #00a6b9;
+  min-height: 600px;
+  min-width: 750px;
+
+  .leftPanel {
+    float: left;
+    height: 100%;
+    width: 220px;
+    word-wrap: break-word;
+    font-size: 0;
+    transition: width 0.3s;
+    position: relative;
+    z-index: 5;
+
+    &.remove {
+      width: 0;
+
+      .btnMenu {
+        span {
+          &:nth-child(1) {
+            transform: rotate(0deg) translate(0, 0);
+            width: 100%;
+          }
+          &:nth-child(2) {
+            opacity: 1;
+            width: 100%;
+          }
+          &:nth-child(3) {
+            transform: rotate(0deg) translate(0, 0);
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .btnMenu {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 13px;
+      left: 10px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 10px;
+      z-index: 10;
+
+      span {
+        background: #fff;
+        border-radius: 3px;
+        height: 4px;
+        position: absolute;
+        transition: 0.2s ease-in-out;
+        -webkit-tap-highlight-color: transparent;
+        left: 0;
+
+        &:nth-child(1) {
+          top: 2px;
+          transform: rotate(45deg) translate(9px, 10px);
+          width: 15px;
+        }
+        &:nth-child(2) {
+          top: 11px;
+          opacity: 1;
+          width: 24px;
+        }
+        &:nth-child(3) {
+          top: 20px;
+          transform: rotate(-45deg) translate(9px, -10px);
+          width: 15px;
+        }
+      }
+
+    }
+
+    .wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 220px;
+      bottom: 0;
+      overflow: hidden;
+      background: white;
+    }
+    .logo {
+      height: 115px;
+      background: url('/img/logo.png') 0 0 no-repeat #0ba5b7;
+    }
+
+  }
+
+  .wrapPanel {
+    height: 100%;
+    padding-top: 50px;
+    overflow: hidden;
+    position: relative;
+    background: white;
+  }
+
+  .topPanel {
+    height: 50px;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 0 3px 0;
+    position: absolute;
+    background-color: #0ba5b7;
+  }
+
+  .contentPanel {
+    height: 100%;
+    position: relative;
+  }
+
+}
