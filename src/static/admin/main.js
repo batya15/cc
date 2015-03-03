@@ -1,13 +1,13 @@
 "use strict";
 
-define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/Login', 'main.jade', 'vendor/js/bootstrap',
-        'views/userMenu/UserMenu'],
+define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/Login', 'vendor/js/bootstrap',
+        'views/main/Main'],
     function (Backbone) {
 
     var auth = require('domain/auth'),
-        template = require('main.jade'),
-        Login = require('views/login/login'),
-        UserMenu = require('views/userMenu/userMenu');
+        Login = require('views/login/Login'),
+        Main = require('views/main/Main'),
+        UserMenu = require('views/userMenu/UserMenu');
 
     var MainView = Backbone.View.extend({
         el: 'body',
@@ -19,29 +19,28 @@ define('main', ['backbone', 'domain/ping', 'domain/auth', 'views/login/Login', '
             }, 0);
         },
         loginLogout: function() {
-            this.removeChildren();
-            this.$el.html(template());
+            this.$el.removeClass('load');
+            this._removeChildren();
             if (auth.isNew()) {
                 this.initializeLoginForm();
             } else {
                 this.initializeInterface();
             }
         },
-        removeChildren: function() {
+        _removeChildren: function() {
             _.each(this.childrens, function(view) {
                 view.remove();
             });
             this.children = [];
         },
         initializeInterface: function() {
-            var userMenu = new UserMenu({model: auth});
-            userMenu.$el.appendTo(this.$('.topPanel'));
-            userMenu.render();
-            this.childrens.push(userMenu);
+            var main = new Main({model: auth});
+            main.$el.appendTo(this.$el);
+            main.render();
+            this.childrens.push(main);
 
         },
         initializeLoginForm: function() {
-            // Загрузка формы в хода
             var login = new Login();
             this.childrens.push(login);
             this.$el.append(login.$el);

@@ -8,11 +8,19 @@ body {
   margin: 0;
   height: 100%;
   padding: 0;
-  background-color: #4db6ac !important;
+  background-color: #00a6b9 !important;
+
+  &.load {
+    .preLoaderMain {
+      display: block;
+    }
+  }
+
 }
 
 
 .preLoaderMain {
+  display: none;
   margin: auto;
   position: absolute;
   top: 0;
