@@ -1,3 +1,5 @@
+@import 'styles/variables';
+
 .v-main {
   height: 100%;
   width: 100%;
@@ -15,6 +17,7 @@
     transition: width 0.3s;
     position: relative;
     z-index: 5;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
 
     &.remove {
       width: 0;
@@ -89,7 +92,7 @@
     }
     .logo {
       height: 115px;
-      background: url('/img/logo.png') 0 0 no-repeat #0ba5b7;
+      background: url('/img/logo.png') 0 0 no-repeat $mainColor;;
     }
 
   }
@@ -109,7 +112,7 @@
     left: 0;
     box-shadow: 0 0 3px 0;
     position: absolute;
-    background-color: #0ba5b7;
+    background-color: $mainColor;;
   }
 
   .contentPanel {

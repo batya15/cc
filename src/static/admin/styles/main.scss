@@ -1,3 +1,5 @@
+@import 'styles/variables';
+
 @font-face {
   font-family: "Roboto";
   src: url("/fonts/Roboto-Thin.ttf");
@@ -37,7 +39,7 @@ body {
   margin: 0;
   height: 100%;
   padding: 0;
-  background-color: #00a6b9 !important;
+  background-color: $mainColor !important;
 
   &.load {
     .preLoaderMain {
@@ -61,7 +63,7 @@ body {
 }
 ::selection {
    color: #fff;
-   background-color: #0ba5b7;
+   background-color: $mainColor;;
 }
 
 .clr {
