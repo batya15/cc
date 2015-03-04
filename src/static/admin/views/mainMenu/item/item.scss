@@ -1,0 +1,49 @@
+.v-mainMenu {
+  list-style: none;
+  padding: 0;
+  margin: 3px 0 0 0;
+  user-select: none;
+
+  & > li {
+    font-weight: bold;
+  }
+
+  .item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "Roboto", sans-serif;
+    color: #444;
+    font-size: 13px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &.active {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+  }
+
+  .v-subMenu {
+    list-style: none;
+    padding: 0;
+    margin: 3px 0 0 0;
+    transform: scale(0);
+    overflow: hidden;
+    transition: 0.3s;
+
+    .item {
+      padding-left: 35px;
+      font-weight: normal;
+    }
+
+  }
+
+  li.open > .v-subMenu {
+    transform: scale(1);
+  }
+
+
+}
