@@ -1,80 +1,86 @@
-define(['backbone', 'underscore', './item/list'],
-    function (Backbone, _ , List) {
+define(['backbone', 'domain/mainMenu', './item.jade'],
+    function (Backbone, mainMenu, template) {
 
-    var menuConfig = {
-        main: {
-            caption: 'Главная',
-            url: '/'
-        },
-        control: {
-            caption: 'Управление'
-        },
-        directory: {
-            caption: 'Справочники'
-        },
-        products: {
-            caption: 'Продукция'
-        },
-        content: {
-            caption: 'Контент'
-        },
-        request: {
-            caption: 'Заявки'
-        },
-        community: {
-            caption: 'Комьюнити'
-        },
-        user: {
-            caption: 'Пользователи',
-            url: '/users',
-            parent: 'control'
-        },
-        setting: {
-            caption: 'Настройки',
-            url: '/setting',
-            parent: 'control'
-        },
-        brands: {
-            caption: 'Настройки',
-            url: '/brands',
-            parent: 'directory'
-        },
-        country: {
-            caption: 'Страны',
-            url: '/country',
-            parent: 'directory'
-        }
-    };
-    var MainMenu = Backbone.Collection.extend({
-        initialize: function() {
-            _.bindAll(this, 'buildMenu');
-            _.each(menuConfig, this.buildMenu);
-        },
-        buildMenu: function (item, key) {
-            if(item.hasOwnProperty('parent')) {
-                if (!this.get(item.parent)) {
-                    this.add({namespace: item.parent});
+        console.log(mainMenu);
+
+        var Item = Backbone.View.extend({
+            tagName: 'li',
+            events: {
+                'click [data-id]': 'navigation'
+            },
+            initialize: function () {
+                this.childrens = [];
+                this.listenTo(this.model, 'change:active', this.active);
+                this.listenTo(this.model, 'remove', this.remove);
+                this.render();
+            },
+            active: function () {
+                if (this.model.get('active')) {
+                    this.$el.addClass('active');
+                } else {
+                    this.$el.removeClass('active');
                 }
-                if (!this.get(item.parent).get('subMenu')) {
-                    this.get(item.parent).set({subMenu: new Backbone.Collection()});
+            },
+            render: function () {
+                this.$el.html(template({item: this.model.attributes}));
+                this.active();
+                if (this.model.get('subMenu')) {
+                    var subMenu = new List({collection: this.model.get('subMenu')});
+                    this.$el.append(subMenu.$el);
+                    this.childrens.push(subMenu);
                 }
-                this.get(item.parent).get('subMenu').add(_.extend({namespace: key}, item));
-            } else {
-                this.add(_.extend({namespace: key}, item));
+            },
+            navigation: function (e) {
+                if ($(e.currentTarget).data('id') === this.model.get('namespace')) {
+                    if (this.model.get('url')) {
+                        console.log('Выполняем переход' + this.model.get('url'));
+                    }
+                }
+                mainMenu.active(this.model);
+            },
+            _removeChildren: function () {
+                _.each(this.childrens, function (view) {
+                    view.remove();
+                });
+                this.childrens = [];
+            },
+            remove: function () {
+                this._removeChildren();
+                Backbone.View.prototype.remove.apply(this);
             }
-        },
-        model: Backbone.Model.extend({
-            idAttribute: "namespace"
-        })
-    });
-    var mainMenu = new MainMenu();
-    console.log(mainMenu);
+        });
 
-    return List.extend({
-        attributes: {
-            class: 'v-mainMenu'
-        },
-        collection: mainMenu
-    });
+        var List = Backbone.View.extend({
+            attributes: {
+                class: 'v-subMenu'
+            },
+            tagName: 'ul',
+            initialize: function () {
+                this.childrens = [];
+                this.collection.each(this.addItem, this);
+            },
+            addItem: function (model) {
+                var item = new Item({model: model});
+                this.childrens.push(item);
+                this.$el.append(item.$el);
+            },
+            _removeChildren: function () {
+                _.each(this.childrens, function (view) {
+                    view.remove();
+                });
+                this.childrens = [];
+            },
+            remove: function () {
+                this._removeChildren();
+                Backbone.View.prototype.remove.apply(this);
+            }
+        });
 
-});
+        return List.extend({
+            attributes: {
+                class: 'v-mainMenu'
+            },
+            collection: mainMenu
+        });
+
+    });
