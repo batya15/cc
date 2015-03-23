@@ -1,7 +1,7 @@
 "use strict";
-define(['domain/auth', 'vendor/js/jquery.cookie'], function (auth) {
+define(['domain/net/auth', 'vendor/js/jquery.cookie'], function (auth) {
 
-    QUnit.module('domain/auth');
+    QUnit.module('domain/net/auth');
 
     var login = 'root',
         pass  = '123';

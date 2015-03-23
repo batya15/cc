@@ -1,5 +1,5 @@
-define(['backbone', 'domain/mainMenu', './item.jade'],
-    function (Backbone, mainMenu, template) {
+define(['backbone', 'domain/mainMenu', './item.jade', 'router'],
+    function (Backbone, mainMenu, template, router) {
 
         console.log(mainMenu);
 
@@ -33,7 +33,7 @@ define(['backbone', 'domain/mainMenu', './item.jade'],
             navigation: function (e) {
                 if ($(e.currentTarget).data('id') === this.model.get('namespace')) {
                     if (this.model.get('url')) {
-                        console.log('Выполняем переход' + this.model.get('url'));
+                        router.navigate(this.model.get('url'), {trigger: true});
                     }
                 }
                 mainMenu.active(this.model);

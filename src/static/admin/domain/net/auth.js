@@ -1,6 +1,6 @@
 "use strict";
 define([
-    './entity/socket',
+    'domain/entity/socket',
     'backbone',
     'vendor/js/jquery.cookie'
 ], function (io, Backbone) {

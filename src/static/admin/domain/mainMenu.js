@@ -31,17 +31,17 @@ define(['backbone', 'underscore'], function (Backbone, _) {
         },
         setting: {
             caption: 'Настройки',
-            url: '/setting',
+            url: '/users/asdf',
             parent: 'control'
         },
         brands: {
             caption: 'Настройки',
-            url: '/brands',
+            url: '/users/rtt?asdf=adf&adf=adf#df',
             parent: 'directory'
         },
         country: {
             caption: 'Страны',
-            url: '/country',
+            url: '/users/kkf',
             parent: 'directory'
         }
     };

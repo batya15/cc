@@ -1,6 +1,6 @@
-define(['backbone', 'underscore', './login.jade', 'domain/auth', 'vendor/js/ladda'], function (Backbone, _, template) {
+define(['backbone', 'underscore', './login.jade', 'domain/net/auth', 'vendor/js/ladda'], function (Backbone, _, template) {
 
-    var auth = require('domain/auth'),
+    var auth = require('domain/net/auth'),
         Ladda = require('vendor/js/ladda');
 
 

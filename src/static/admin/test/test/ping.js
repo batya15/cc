@@ -1,7 +1,7 @@
 "use strict";
-define(['domain/ping'], function (ping) {
+define(['domain/net/ping'], function (ping) {
 
-    QUnit.module('domain/ping');
+    QUnit.module('domain/net/ping');
 
     QUnit.asyncTest('Проверка пинга', function (assert) {
         expect(1);

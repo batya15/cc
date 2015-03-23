@@ -1,5 +1,5 @@
 "use strict";
-define(['./entity/socket'], function (io) {
+define(['domain/entity/socket'], function (io) {
     var socket = io('ping');
 
     return function (cb) {
