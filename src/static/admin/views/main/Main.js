@@ -1,5 +1,5 @@
 define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth', 'views/mainMenu/MainMenu', 'router',
-        'domain/plugins', 'views/entity/ParentView', 'views/plugins/Users/Users'],
+        'domain/plugins', 'views/entity/ParentView', 'views/plugins/Users/Users', 'views/plugins/Brands/Brands'],
     function (Backbone, template) {
 
         var UserMenu = require('views/userMenu/UserMenu'),

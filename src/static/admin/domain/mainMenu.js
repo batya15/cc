@@ -31,7 +31,7 @@ define(['backbone', 'underscore'], function (Backbone, _) {
         },
         setting: {
             caption: 'Настройки',
-            url: '/users/asdf',
+            url: '/brands/asdf',
             parent: 'control'
         },
         brands: {

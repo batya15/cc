@@ -5,7 +5,7 @@ define(['backbone'], function (Backbone) {
     var Router = Backbone.Router.extend({
         routes: {
             "users(/)*path": "users",
-            "brands(/)": "brands",
+            "brands(/)*path": "brands",
             "": "home"
         }
     });
