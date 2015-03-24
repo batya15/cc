@@ -1,12 +1,12 @@
 define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth', 'views/mainMenu/MainMenu', 'router',
-        'domain/plugins', 'views/entity/ParentView', 'views/plugins/Users/Users', 'views/plugins/Brands/Brands'],
+        'domain/plugins', 'views/entity/ParentView', 'views/Content/Content'],
     function (Backbone, template) {
 
         var UserMenu = require('views/userMenu/UserMenu'),
             MainMenu = require('views/mainMenu/MainMenu'),
             auth = require('domain/net/auth'),
-            plugins = require('domain/plugins'),
             router = require('router'),
+            Content = require('views/Content/Content'),
             ParentView = require('views/entity/ParentView');
 
 
@@ -19,30 +19,11 @@ define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth',
             },
             initialize: function () {
                 this.$el.html(template());
-                this.showUserMenu();
-                this.showMainMenu();
+                this.renderUserMenu();
+                this.renderMainMenu();
+                this.renderContent();
 
-                this.listenTo(router, 'route', this.showContent);
                 Backbone.history.start({pushState: true, root: '/pjax'});
-            },
-            showContent: function(namespace) {
-                if (this.namespace === namespace) {
-                    return false;
-                }
-                this.namespace = namespace;
-                console.log(arguments);
-                var View,
-                    plugin = plugins.get(namespace);
-                if (plugin) {
-                    if (this.content) {
-                        this.content.remove();
-                    }
-                    View = plugin.get('View');
-                    this.content = new View();
-                    this.$('[data-mainContent]').append(this.content.$el);
-                } else {
-                    console.info(namespace + '- plugin not found');
-                }
             },
             toggleLeftMenu: function () {
                if (this.$('.leftPanel').hasClass('remove')) {
@@ -51,17 +32,20 @@ define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth',
                     this.$('.leftPanel').addClass('remove');
                 }
             },
-            showUserMenu: function () {
-                var userMenu = new UserMenu({model: auth});
-                this.addChild(userMenu);
-                this.$('.topPanel').append(userMenu.$el);
-                userMenu.render();
+            renderUserMenu: function () {
+                this.newChild(UserMenu, '.topPanel', {model: auth});
             },
-            showMainMenu: function () {
-                var mainMenu = new MainMenu();
-                this.addChild(mainMenu);
-                mainMenu.$el.appendTo(this.$('.mainMenuWrap'));
-                mainMenu.render();
+            renderMainMenu: function () {
+                this.newChild(MainMenu, '.mainMenuWrap');
+            },
+            renderContent: function () {
+                this.newChild(Content, '[data-mainContent]');
+            },
+            newChild: function (View, el, data) {
+                var v = new View(data);
+                this.addChild(v);
+                v.$el.appendTo(this.$(el));
+                v.render();
             }
         });
 
