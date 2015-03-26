@@ -1,6 +1,6 @@
 "use strict";
 
-define(['views/entity/ParentView', 'router',
+define(['entity/_ParentView', 'router',
     'domain/pages',
     'views/plugins/Users/Users',
     'views/plugins/Brands/Brands'], function (ParentView, router) {

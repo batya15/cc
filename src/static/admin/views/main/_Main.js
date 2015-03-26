@@ -1,12 +1,12 @@
-define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth', 'views/menu/Menu', 'router',
-        'views/entity/ParentView', 'views/Сontent/Content'],
+define(['backbone', './main.jade', 'views/userMenu/_UserMenu', 'domain/net/auth', 'views/menu/_Menu', 'router',
+        'entity/_ParentView', 'views/_Сontent/_Content'],
     function (Backbone, template) {
 
-        var UserMenu = require('views/userMenu/UserMenu'),
-            Menu = require('views/menu/Menu'),
+        var UserMenu = require('views/userMenu/_UserMenu'),
+            Menu = require('views/menu/_Menu'),
             auth = require('domain/net/auth'),
             router = require('router'),
-            Content = require('views/Сontent/Content'),
+            Content = require('views/_Сontent/_Content'),
             ParentView = require('views/entity/ParentView');
 
 

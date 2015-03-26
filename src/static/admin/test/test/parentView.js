@@ -1,5 +1,5 @@
 "use strict";
-define(['views/entity/ParentView', 'backbone'], function (ParentView, Backbone) {
+define(['views/entity/_ParentView', 'backbone'], function (ParentView, Backbone) {
 
     QUnit.module('views/entity/ParentView');
 
