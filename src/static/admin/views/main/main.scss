@@ -23,20 +23,7 @@
       width: 0;
 
       .btnMenu {
-        span {
-          &:nth-child(1) {
-            transform: rotate(0deg) translate(0, 0);
-            width: 100%;
-          }
-          &:nth-child(2) {
-            opacity: 1;
-            width: 100%;
-          }
-          &:nth-child(3) {
-            transform: rotate(0deg) translate(0, 0);
-            width: 100%;
-          }
-        }
+        transform: rotateY(180deg);
       }
     }
 
@@ -51,6 +38,8 @@
       -webkit-tap-highlight-color: transparent;
       font-size: 10px;
       z-index: 10;
+      transition: 0.2s ease-in-out;
+      transform: rotateY(0deg);
 
       span {
         background: #fff;
@@ -63,20 +52,40 @@
 
         &:nth-child(1) {
           top: 2px;
-          transform: rotate(45deg) translate(9px, 10px);
-          width: 15px;
+          transform: rotate(0deg) translate(0, 0);
+          width: 100%;
         }
         &:nth-child(2) {
           top: 11px;
-          opacity: 1;
-          width: 24px;
+          transform: rotate(0deg) translate(0, 0);
+          width: 100%;
         }
         &:nth-child(3) {
           top: 20px;
-          transform: rotate(-45deg) translate(9px, -10px);
-          width: 15px;
+          transform: rotate(0deg) translate(0, 0);
+          width: 100%;
         }
       }
+      &:hover {
+        span {
+          &:nth-child(1) {
+            top: 2px;
+            transform: rotate(45deg) translate(9px, 10px);
+            width: 15px;
+          }
+          &:nth-child(2) {
+            top: 11px;
+            opacity: 1;
+            width: 24px;
+          }
+          &:nth-child(3) {
+            top: 20px;
+            transform: rotate(-45deg) translate(9px, -10px);
+            width: 15px;
+          }
+        }
+      }
+
 
     }
 
