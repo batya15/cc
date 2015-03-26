@@ -14,14 +14,10 @@ define([
         initialize: function () {
             this.listenTo(router, 'route', this.showContent);
         },
-        render: function () {
-
-        },
         showContent: function(namespace, param) {
             if (this.namespace === namespace) {
                 return false;
             }
-            console.log('users');
             this.namespace = namespace;
             var View,
                 plugin = pages.get(namespace);
@@ -30,7 +26,7 @@ define([
                     this.content.remove();
                 }
                 View = plugin.get('View');
-                this.content = new View(param);
+                this.content = new View(param, namespace);
                 this.$el.append(this.content.$el);
             } else {
                 console.info(namespace + '- plugin not found');

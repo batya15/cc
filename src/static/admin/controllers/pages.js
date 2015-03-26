@@ -1,3 +1,5 @@
+"use strict";
+
 define(['domain/pages', 'domain/menu', 'router'], function(pages, menu, router) {
 
     var PagesController = function() {

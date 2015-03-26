@@ -1,20 +1,24 @@
 "use strict";
 
-define(['backbone', 'controllers/pages'], function(Backbone, pages) {
+define(['controllers/pages', 'views/entity/page', 'views/entity/list/list'], function (pageController, Page, List) {
 
     var namespace = 'brands';
 
-    var View = Backbone.View.extend({
-        initialize: function (data) {
-            console.log(data);
-            this.$el.text('Здесь редактируем Бранды');
+    var NewList = List.extend({
+        initialize: function () {
+            this.$el.html('Переопределили метод');
         }
     });
 
-    return pages.addPage({
+    var View = Page.extend({
+        List: NewList,
+        batya: function() {
+            this.$el.html('asdf');
+        }
+    });
+
+    return pageController.addPage({
         namespace: namespace,
         view: View
     });
-
 });
-
