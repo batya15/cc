@@ -1,14 +1,13 @@
 "use strict";
 
-define('main', ['domain/net/ping', 'domain/net/auth', 'views/login/_Login', 'vendor/js/bootstrap',
-        'views/main/_Main', 'views/entity/_ParentView'],
+define('main', ['domain/net/ping', 'domain/net/auth', 'views/login/login', 'vendor/js/bootstrap',
+        'views/main/main', 'views/entity/parentView'],
     function () {
 
     var auth = require('domain/net/auth'),
-        Login = require('views/login/_Login'),
-        Main = require('views/main/_Main'),
-        UserMenu = require('views/userMenu/UserMenu'),
-        ParentView = require('views/entity/ParentView');
+        Login = require('views/login/login'),
+        Main = require('views/main/main'),
+        ParentView = require('views/entity/parentView');
 
     var MainView = ParentView.extend({
         el: 'body',

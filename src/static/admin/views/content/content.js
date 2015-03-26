@@ -1,9 +1,12 @@
 "use strict";
 
-define(['entity/_ParentView', 'router',
+define([
+    'views/entity/parentView',
+    'router',
     'domain/pages',
     'views/plugins/Users/Users',
-    'views/plugins/Brands/Brands'], function (ParentView, router) {
+    'views/plugins/Brands/Brands'
+], function (ParentView, router) {
 
     var pages = require('domain/pages');
 
