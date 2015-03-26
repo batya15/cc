@@ -1,12 +1,12 @@
-define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth', 'views/mainMenu/MainMenu', 'router',
-        'domain/plugins', 'views/entity/ParentView', 'views/Content/Content'],
+define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth', 'views/menu/Menu', 'router',
+        'views/entity/ParentView', 'views/content/Content'],
     function (Backbone, template) {
 
         var UserMenu = require('views/userMenu/UserMenu'),
-            MainMenu = require('views/mainMenu/MainMenu'),
+            Menu = require('views/menu/Menu'),
             auth = require('domain/net/auth'),
             router = require('router'),
-            Content = require('views/Content/Content'),
+            Content = require('views/content/Content'),
             ParentView = require('views/entity/ParentView');
 
 
@@ -36,7 +36,7 @@ define(['backbone', './main.jade', 'views/userMenu/UserMenu', 'domain/net/auth',
                 this.newChild(UserMenu, '.topPanel', {model: auth});
             },
             renderMainMenu: function () {
-                this.newChild(MainMenu, '.mainMenuWrap');
+                this.newChild(Menu, '.mainMenuWrap');
             },
             renderContent: function () {
                 this.newChild(Content, '[data-mainContent]');

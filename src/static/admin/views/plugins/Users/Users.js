@@ -1,20 +1,8 @@
 "use strict";
 
-define(['backbone', 'domain/plugins', 'domain/mainMenu', 'router'], function(Backbone, plugins, mainMenu, router) {
+define(['backbone', 'controllers/pages'], function(Backbone, pages) {
 
     var namespace = 'users';
-
-
-    // todo: Вынести логику инициализации в класс page
-    // Инициализация меню, роутера
-    mainMenu.add({
-        caption: 'UUUSSSEEERRR',
-        url: '/brands',
-        namespace: 'users'
-    });
-
-    router.route('brands(/)*path', 'brands');
-    router.route('/test/me/again', 'testAgainRoute');
 
     var View = Backbone.View.extend({
         initialize: function (data) {
@@ -23,11 +11,9 @@ define(['backbone', 'domain/plugins', 'domain/mainMenu', 'router'], function(Bac
         }
     });
 
-    plugins.add({
-        id: namespace,
-        View: View
+    return pages.addPage({
+        namespace: namespace,
+        view: View
     });
-
-    return View;
 });
 

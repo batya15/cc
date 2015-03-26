@@ -1,6 +1,6 @@
 "use strict";
 
-define(['backbone', 'domain/plugins'], function(Backbone, plugins) {
+define(['backbone', 'controllers/pages'], function(Backbone, pages) {
 
     var namespace = 'brands';
 
@@ -11,11 +11,10 @@ define(['backbone', 'domain/plugins'], function(Backbone, plugins) {
         }
     });
 
-    plugins.add({
-        id: namespace,
-        View: View
+    return pages.addPage({
+        namespace: namespace,
+        view: View
     });
 
-    return View;
 });
 

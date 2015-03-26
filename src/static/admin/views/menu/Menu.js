@@ -1,7 +1,7 @@
-define(['backbone', 'domain/mainMenu', './item.jade', 'router'],
-    function (Backbone, mainMenu, template, router) {
+define(['backbone', 'domain/menu', './item.jade', 'router'],
+    function (Backbone, menu, template, router) {
 
-        console.log(mainMenu);
+        console.log(menu);
 
         var Item = Backbone.View.extend({
             tagName: 'li',
@@ -36,7 +36,7 @@ define(['backbone', 'domain/mainMenu', './item.jade', 'router'],
                         router.navigate(this.model.get('url'), {trigger: true});
                     }
                 }
-                mainMenu.active(this.model);
+                menu.active(this.model);
             },
             _removeChildren: function () {
                 _.each(this.childrens, function (view) {
@@ -80,7 +80,7 @@ define(['backbone', 'domain/mainMenu', './item.jade', 'router'],
             attributes: {
                 class: 'v-mainMenu'
             },
-            collection: mainMenu
+            collection: menu
         });
 
     });

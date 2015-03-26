@@ -19,7 +19,6 @@ var path = require('path');
 var async = require('async');
 var through = require('through2');
 var fs = require('fs');
-var livereload = require('gulp-livereload');
 var watch = require('gulp-watch');
 var concat = require('gulp-concat');
 var minifyCSS = require('gulp-minify-css');
@@ -63,6 +62,7 @@ function compileStyle() {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.path.build + '/static'));
 }
+
 //Компиляция шаблонов JADE
 function compileTemplates() {
     function scanJadeIncludes(jadeFileName, basePath, callback) {
@@ -154,6 +154,8 @@ function compileStaticTemplates() {
         .pipe(rename({extname: ""}))
         .pipe(gulp.dest(config.path.build + '/static'));
 }
+
+
 //Вотчеры
 function registerWatchers() {
     //livereload.listen();
@@ -168,6 +170,7 @@ function registerWatchers() {
     watch(config.path.scssFiles, {verbose: true, name: 'style-compile-files'}, compileStyle);
     return gulp;
 }
+
 //Минификация css
 function cssMinConcatAdmin() {
     return gulp.src([config.path.build + '/static/admin/**/*.css', "!**/test/**"], {base: 'build'})
@@ -226,6 +229,7 @@ function jsMin() {
         .pipe(gulp.dest(config.path.release + '/temp'));
 }
 
+//todo: избавиться от этой функции, перенести ее в concatAllJs
 function concatNotAmd() {
     return gulp.src([config.path.release + '/temp/**/require.js', config.path.release + '/temp/**/require-config.js'])
         .pipe(order([
