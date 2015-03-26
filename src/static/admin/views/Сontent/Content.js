@@ -5,8 +5,6 @@ define(['views/entity/ParentView', 'router',
     'views/plugins/Users/Users',
     'views/plugins/Brands/Brands'], function (ParentView, router) {
 
-    //todo: Привести в порядок, выделить модуль Pages в место plugins
-    //Page url, пункт меню, view
     var pages = require('domain/pages');
 
     return ParentView.extend({
