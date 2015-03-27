@@ -4,8 +4,7 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
     'views/entity/list/list', 'views/entity/preview/preview'],
     function (Backbone, _) {
 
-    var pages = require('controllers/pages'),
-        router = require('router'),
+    var router = require('router'),
         List = require('views/entity/list/list'),
         Create = require('views/entity/create/create'),
         Preview = require('views/entity/preview/preview'),

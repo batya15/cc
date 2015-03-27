@@ -1,11 +1,14 @@
 "use strict";
 
-define(['controllers/pages', 'views/entity/page'], function (pageController, Page) {
+define(['domain/pages', 'views/entity/page'], function (page, Page) {
 
     var namespace = 'users';
 
-    return pageController.addPage({
+    return page.buildPage({
         namespace: namespace,
+        parent: 'control',
+        icon: 'glyphicon-user',
+        caption: 'Пользователи',
         view: Page
     });
 });

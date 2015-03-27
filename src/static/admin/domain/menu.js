@@ -35,9 +35,9 @@ define(['backbone', 'underscore'], function (Backbone, _) {
             }
             menu.get('collection').add(item);
         },
-        active: function (activeModel) {
+        show: function (activeModel) {
             this.each(function (m) {
-                m.set({active: (m === activeModel)});
+                m.set({show: (m === activeModel)});
             });
         },
         model: Backbone.Model.extend({

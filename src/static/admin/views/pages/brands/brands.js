@@ -1,6 +1,6 @@
 "use strict";
 
-define(['controllers/pages', 'views/entity/page', 'views/entity/list/list'], function (pageController, Page, List) {
+define(['domain/pages', 'views/entity/page', 'views/entity/list/list'], function (pages, Page, List) {
 
     var namespace = 'brands';
 
@@ -17,9 +17,11 @@ define(['controllers/pages', 'views/entity/page', 'views/entity/list/list'], fun
         }
     });
 
-    return pageController.addPage({
+    return pages.buildPage({
         namespace: namespace,
-        parent: 'main',
+        parent: 'directory',
+        icon: 'glyphicon-tags',
+        caption: 'Бренды',
         view: View
     });
 });

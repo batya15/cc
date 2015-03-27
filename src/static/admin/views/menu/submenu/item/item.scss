@@ -1,0 +1,35 @@
+.v-mainMenu {
+  list-style: none;
+  padding: 0;
+  margin: 3px 0 0 0;
+  user-select: none;
+
+  .item {
+    padding: 8px 0 8px 29px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "Roboto", sans-serif;
+    color: #444;
+    font-size: 14px;
+
+    &:hover {
+      background-color: rgba(240, 240, 240, 0.38);
+    }
+  }
+
+  .iconItem {
+    font-size: 11px;
+    margin: 0 20px 0 15px;
+    vertical-align: middle;
+    transition: 0.3s;
+  }
+
+  .active {
+    .item {
+      background-color: rgba(240, 240, 240, 0.38);
+      border-left: 7px solid #4CAF50;
+      padding-left: 22px;
+    }
+  }
+
+}
