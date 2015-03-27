@@ -21,9 +21,22 @@
     }
   }
 
+  .icon {
+    font-size: 8px;
+    margin: 0 20px 0 15px;
+    vertical-align: middle;
+    transform: rotateZ(0deg);
+    transition: 0.3s ;
+  }
+
   .active {
     .item {
       background-color: rgba(0, 0, 0, 0.15);
+
+      .icon {
+        transform: rotateZ(90deg);
+      }
+
     }
   }
 

@@ -7,10 +7,12 @@ define(['domain/pages', 'domain/menu', 'router'], function(pages, menu, router) 
     };
 
     PagesController.prototype.addPage = function(data) {
-        var modelMenu = menu.add({
+        var modelMenu = menu.addItem({
+            parent: data.parent,
             caption: data.namespace,
             url: '/' + data.namespace,
-            namespace: data.namespace
+            namespace: data.namespace,
+            id: data.namespace
         });
         router.route(data.namespace + '(/)*path', data.namespace);
         var modelPage = pages.add({

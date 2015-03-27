@@ -1,68 +1,39 @@
 "use strict";
 define(['backbone', 'underscore'], function (Backbone, _) {
 
-    var menuConfig = {
-        main: {
-            caption: 'Главная',
-            url: '/'
-        },
-        control: {
-            caption: 'Управление'
-        },
-        directory: {
-            caption: 'Справочники'
-        },
-        products: {
-            caption: 'Продукция'
-        },
-        content: {
-            caption: 'Контент'
-        },
-        request: {
-            caption: 'Заявки'
-        },
-        community: {
-            caption: 'Комьюнити'
-        },
-        user: {
-            caption: 'Пользователи',
-            url: '/users',
-            parent: 'control'
-        },
-        setting: {
-            caption: 'Настройки',
-            url: '/brands/asdf',
-            parent: 'control'
-        },
-        brands: {
-            caption: 'Настройки',
-            url: '/users/rtt?asdf=adf&adf=adf#df',
-            parent: 'directory'
-        },
-        country: {
-            caption: 'Страны',
-            url: '/users/kkf',
-            parent: 'directory'
-        }
+    var config = {
+        main: 'Главная',
+        control: 'Управление',
+        directory: 'Справочники',
+        products: 'Продукция',
+        content: 'Контент',
+        request: 'Заявки',
+        community: 'Комьюнити'
     };
 
-    var MainMenu = Backbone.Collection.extend({
+
+    var Menu = Backbone.Collection.extend({
         initialize: function () {
-            _.bindAll(this, 'buildMenu');
-            _.each(menuConfig, this.buildMenu);
+            _.bindAll(this, '_buildMenu');
+            _.each(config, this._buildMenu);
         },
-        buildMenu: function (item, key) {
-            if (item.hasOwnProperty('parent')) {
-                if (!this.get(item.parent)) {
-                    this.add({namespace: item.parent});
-                }
-                if (!this.get(item.parent).get('subMenu')) {
-                    this.get(item.parent).set({subMenu: new Backbone.Collection()});
-                }
-                this.get(item.parent).get('subMenu').add(_.extend({namespace: key}, item));
-            } else {
-                this.add(_.extend({namespace: key}, item));
+        _buildMenu: function (item, key) {
+            var p = {
+                namespace: key,
+                caption: item,
+                collection: new Backbone.Collection()
+            };
+            return this.add(p);
+        },
+        addItem: function (item) {
+            if (!_.isObject(item)) {
+                return false;
             }
+            var menu = this.get(item.parent);
+            if (!menu) {
+                menu = this._buildMenu('other', 'other');
+            }
+            menu.get('collection').add(item);
         },
         active: function (activeModel) {
             this.each(function (m) {
@@ -74,7 +45,7 @@ define(['backbone', 'underscore'], function (Backbone, _) {
         })
     });
 
-    return new MainMenu();
+    return new Menu();
 
 });
 

@@ -19,6 +19,7 @@ define(['controllers/pages', 'views/entity/page', 'views/entity/list/list'], fun
 
     return pageController.addPage({
         namespace: namespace,
+        parent: 'main',
         view: View
     });
 });
