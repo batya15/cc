@@ -17,7 +17,6 @@
     transition: width 0.3s;
     position: relative;
     z-index: 5;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
 
     &.remove {
       width: 0;
@@ -96,12 +95,12 @@
       width: 220px;
       bottom: 0;
       overflow: hidden;
-      background: white;
+      background-color: #fff;
       font-size: 14px;
     }
     .logo {
-      height: 115px;
-      background: url('/img/logo.png') 0 0 no-repeat $mainColor;;
+      height: 50px;
+      background-color: $mainColor;;
     }
 
   }
@@ -128,7 +127,8 @@
     height: 100%;
     position: relative;
     overflow: auto;
-
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.16);
+    background-color: #f7f7f7;
   }
 
 }
