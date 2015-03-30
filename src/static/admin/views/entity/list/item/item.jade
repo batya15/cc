@@ -1,11 +1,10 @@
 -var activeClass = (active)? 'active': ''
 .item(class=activeClass)
-    .col-xs-3
-        .col Bob Jacke
-    .col-xs-2
-        .col 20
-    .col-xs-5
-        .col +7385251565527
+    each row in rows
+        if (row.bold)
+            strong(class='col-xs-' + row.size)= row.value
+        else
+            div(class='col-xs-' + row.size)= row.value
     .col-xs-2.buttons
         span(data-preview).btn.btn-sm.green.glyphicon.glyphicon-eye-open
         span(data-edit).btn.blue.btn-sm.glyphicon.glyphicon-pencil

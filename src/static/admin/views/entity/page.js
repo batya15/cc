@@ -16,6 +16,7 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
         Preview: Preview,
         Edit: Edit,
         initialize: function (data) {
+            this.fields = data.fields;
             this.listenTo(router, 'route:' + data.namespace, this._loadModule);
             this._loadModule(data.arg);
         },
@@ -31,7 +32,7 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
             }
         },
         list: function (p) {
-            this.content = new this.List({model: this.model, path: p});
+            this.content = new this.List({model: this.model, path: p, fields: this.fields});
             this.$el.append(this.content.$el);
         },
         edit: function () {

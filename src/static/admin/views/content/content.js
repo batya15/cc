@@ -30,7 +30,8 @@ define([
                 this.content = new View({
                     arg: param,
                     namespace: namespace,
-                    model: new Model()
+                    model: new Model(),
+                    fields: page.get('fields')
                 });
                 this.$el.append(this.content.$el);
             } else {

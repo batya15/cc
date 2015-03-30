@@ -19,13 +19,19 @@ define(['backbone', './item.jade', 'router', 'alertify'
             'click [data-edit]': 'edit',
             'click [data-remove]': 'removeItem'
         },
-        initialize: function () {
+        initialize: function (data) {
+            this.opt = data.opt;
+            this.fields = this._parseRows();
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model.collection, 'active', this.active);
             this.listenTo(this.model, 'remove', this.remove);
         },
         render: function () {
-            this.$el.html(template(this.model.attributes));
+            this.$el.html(template({
+                id: this.model.get('id'),
+                rows: this.fields
+            }));
+            console.log(this.fields);
         },
         active: function (m) {
             this.model.set('active', (this.model.id === m.id));
@@ -46,6 +52,22 @@ define(['backbone', './item.jade', 'router', 'alertify'
         },
         preview: function () {
             router.navigate('users/preview?id=' + this.model.id, {trigger: true});
+        },
+        _parseRows: function () {
+            var opt = {};
+
+            _.each(this.opt, function (val, key) {
+                var value = val.value;
+                var v = '';
+
+                _.each(value, function (val) {
+                    var t = this.model.get(val);
+                    v = (t)? v + ' '+ t : v;
+                }, this);
+                opt[key] = _.extend({}, val, {value: v});
+            }, this);
+
+            return opt;
         }
     });
 

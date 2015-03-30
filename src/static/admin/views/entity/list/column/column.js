@@ -9,25 +9,15 @@ define(['jquery', 'backbone', './column.jade'], function ($, Backbone, template)
         events: {
             'click [data-key]': 'onClick'
         },
-        initialize: function () {
+        initialize: function (data) {
             this.listenTo(this.model, 'change', this.render);
+            this.opt = data.opt;
+            console.log(data.opt);
         },
         render: function () {
+            console.log(this.opt);
             this.$el.html(template({
-                columns: {
-                    name: {
-                        caption: "Имя",
-                        size: 3
-                    },
-                    age: {
-                        caption: "Возраст",
-                        size: 2
-                    },
-                    phone: {
-                        caption: "Телефон",
-                        size: 5
-                    }
-                },
+                columns: this.opt,
                 sortBy: this.model.get('sortBy'),
                 revert: this.model.get('revert')
             }));

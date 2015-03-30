@@ -22,7 +22,7 @@
     "require-css": "~0.1.8",
     "jade": "~1.8.1",
     "normalize.css": "~3.0.2",
-    "bootstrap": "~3.3.2",
+    "bootstrap": "3.3.2",
     "ladda-bootstrap": "~0.1.0",
     "svg-loaders": "~1.0.2",
     "alertify.js": "~0.3.11"

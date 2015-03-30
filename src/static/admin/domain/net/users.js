@@ -8,10 +8,17 @@ define(['backbone'], function (Backbone) {
         namespace: 'users',
         sync: function () {
             console.log(arguments);
-            this.add({id: 1});
-            this.add({id: 3});
-            this.add({id: 4});
-            this.add({id: 2});
+            var obj = {
+                name: 'Batyr',
+                lastname: 'Charyev',
+                age: '20',
+                phone: '+79251565527',
+                address: 'Moscow'
+            };
+            this.add(_.extend({id: 1}, obj));
+            this.add(_.extend({id: 3}, obj));
+            this.add(_.extend({id: 4}, obj));
+            this.add(_.extend({id: 2}, obj));
         },
         model: Backbone.Model.extend({
             resetPassword: function (cb) {

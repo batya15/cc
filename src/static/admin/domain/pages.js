@@ -24,7 +24,8 @@ define(['backbone', 'domain/menu', 'router'],
                 var modelPage = this.add({
                     id: data.namespace,
                     View: data.view,
-                    model: data.model
+                    model: data.model,
+                    fields: data.fields
                 });
 
                 return {

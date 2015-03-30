@@ -15,7 +15,23 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 'change [data-search-val]': 'detectSearch'
             },
             initialize: function (data) {
-                var param;
+                var param, opt = {};
+                console.log(data.fields);
+
+                _.each(data.fields, function (val, key) {
+                    var n = key.split(':');
+
+                    opt[n[0]] = {
+                        size: (n[1]) ? n[1] : 2,
+                        bold: (n[2]),
+                        value: val.split(' '),
+                        caption: n[0]
+                    };
+                });
+
+                this.opt = opt;
+                console.log(this.opt);
+
                 if (data.path) {
                     param = _.object(_.compact(_.map(data.path.split('&'), function (item) {
                         if (item) {
@@ -36,7 +52,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
             render: function () {
                 var nTop = new Numbers({model: this.model});
                 var nBottom = new Numbers({model: this.model});
-                var column = new Column({model: this.model});
+                var column = new Column({model: this.model, opt: this.opt});
 
                 this.addChild(nTop, nBottom, column);
 
@@ -92,7 +108,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.detectSearch();
             },
             addItem: function (m) {
-                var v = new Item({model: m});
+                var v = new Item({model: m, opt: this.opt});
                 this.$('[data-tableConteiner]').append(v.$el);
                 v.render();
                 this.addChild(v);
