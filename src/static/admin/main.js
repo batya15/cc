@@ -19,6 +19,7 @@ define('main', ['domain/net/ping', 'domain/net/auth', 'views/login/login', 'vend
         },
         loginLogout: function() {
             this.$el.removeClass('load');
+            this._removeChildren();
             if (auth.isNew()) {
                 this.initializeLoginForm();
             } else {

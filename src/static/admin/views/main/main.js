@@ -46,6 +46,10 @@ define(['backbone', './main.jade', 'views/userMenu/userMenu', 'domain/net/auth',
                 this.addChild(v);
                 v.$el.appendTo(this.$(el));
                 v.render();
+            },
+            remove: function () {
+                Backbone.history.stop();
+                ParentView.prototype.remove.apply(this);
             }
         });
 

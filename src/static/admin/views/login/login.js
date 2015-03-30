@@ -8,6 +8,7 @@ define(['backbone', 'underscore', './login.jade', 'domain/net/auth', 'vendor/js/
         name: 'loginForm',
         events: {
             'keyup input': 'validation',
+            'change input': 'validation',
             'click #submit': 'login'
         },
         attributes: {

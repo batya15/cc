@@ -23,6 +23,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
             this.listenTo(this.model, 'change', this.onModel);
             this.collection.each(this.addItem, this);
             this.render();
+            this.onModel();
         },
         render: function () {
             var nTop = new Numbers({model: this.model});
