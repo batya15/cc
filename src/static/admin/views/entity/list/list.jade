@@ -1,0 +1,30 @@
+mixin item(c)
+    .item(class=c)
+        .col-xs-3
+            .col Bob Jacke
+        .col-xs-2
+            .col 20
+        .col-xs-5
+            .col +7385251565527
+        .col-xs-2.buttons
+            span(data-preview).btn.btn-sm.green.glyphicon.glyphicon-eye-open
+            span(data-edit).btn.blue.btn-sm.glyphicon.glyphicon-pencil
+            span(data-remove).btn.btn-sm.red.glyphicon.glyphicon-trash
+        .clr
+.caption Таблица
+.tools
+    .search
+        input.input(data-search-val, placeholder='Поиск', value= search)
+        button(data-search).btn.btn-sm.btn-info Поиск
+    button.btn.btn-info.btn-sm.icon(data-create)
+        .glyphicon.glyphicon-plus
+        span Добавить
+div(data-numbers-top)
+.table
+    .container-flui(data-column)
+    .container-fluid(data-tableConteiner)
+        +item
+        +item
+        +item('active')
+        +item
+div(data-numbers-bottom)

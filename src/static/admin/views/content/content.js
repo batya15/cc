@@ -19,14 +19,19 @@ define([
                 return false;
             }
             this.namespace = namespace;
-            var View,
-                plugin = pages.get(namespace);
-            if (plugin) {
+            var View, Model,
+                page = pages.get(namespace);
+            if (page) {
                 if (this.content) {
                     this.content.remove();
                 }
-                View = plugin.get('View');
-                this.content = new View(param, namespace);
+                View = page.get('View');
+                Model = page.get('model');
+                this.content = new View({
+                    arg: param,
+                    namespace: namespace,
+                    model: new Model()
+                });
                 this.$el.append(this.content.$el);
             } else {
                 console.info(namespace + '- plugin not found');

@@ -1,0 +1,30 @@
+.v-numbers {
+    border-bottom: 1px solid #edf2f1;
+    padding: 5px 10px;
+    overflow: hidden;
+    text-align: center;
+
+    .number {
+      display: inline-block;
+      cursor: pointer;
+      border-radius: 2px;
+      color: #3498db;
+      width: 30px;
+      text-align: center;
+      height: 23px;
+      line-height: 23px;
+
+      &.active {
+        &:hover {
+          background-color: #3498db;
+        }
+        color: #fff;
+        background-color: #3498db;
+      }
+
+      &:hover {
+        background-color: rgba(52, 152, 219, 0.2);
+      }
+
+    }
+}

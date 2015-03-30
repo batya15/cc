@@ -1,0 +1,33 @@
+.v-column {
+  border-bottom: 1px solid #aaa;
+  padding: 10px;
+  user-select: none;
+
+  .col {
+    padding-left: 20px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+
+    &:before {
+      display: none;
+      font-weight: normal;
+    }
+
+    &.sort:before{
+      content: "\e259";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      line-height: 19px;
+      text-align: center;
+      font: 11px 'Glyphicons Halflings';
+    }
+    &.sort.revert:before {
+      content: "\e260";
+    }
+  }
+
+}

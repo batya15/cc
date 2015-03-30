@@ -1,12 +1,12 @@
 "use strict";
-define(['backbone'], function(Backbone) {
+define(['backbone', 'underscore'], function(Backbone, _) {
 
     return Backbone.View.extend({
         addChild: function(child) {
             if (!this.childrens) {
                 this.childrens = [];
             }
-            this.childrens.push(child);
+            _.each(arguments,  function(v) {this.childrens.push(v);}, this);
         },
         _removeChildren: function () {
             _.each(this.childrens, function (view) {

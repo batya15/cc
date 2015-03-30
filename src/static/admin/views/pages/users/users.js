@@ -1,6 +1,6 @@
 "use strict";
 
-define(['domain/pages', 'views/entity/page'], function (page, Page) {
+define(['domain/pages', 'views/entity/page', 'domain/net/users'], function (page, ViewPage, Users) {
 
     var namespace = 'users';
 
@@ -9,7 +9,8 @@ define(['domain/pages', 'views/entity/page'], function (page, Page) {
         parent: 'control',
         icon: 'glyphicon-user',
         caption: 'Пользователи',
-        view: Page
+        model: Users,
+        view: ViewPage
     });
 });
 

@@ -40,6 +40,7 @@ body {
   height: 100%;
   padding: 0;
   background-color: $mainColor !important;
+  font-family: "Roboto", sans-serif;
 
   &.load {
     .preLoaderMain {
@@ -70,6 +71,10 @@ body {
   clear: both;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 input {
   outline: none;
 }
@@ -81,3 +86,5 @@ input:-webkit-autofill {
 }
 
 @import "_shadows.scss";
+@import 'styles/_buttons';
+@import 'styles/_input';

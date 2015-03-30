@@ -1,0 +1,9 @@
+-var sortClass
+-var revertClass
+each column, key in columns
+    -sortClass = (sortBy === key)? 'sort' : ''
+    -revertClass = (revert)? 'revert' : ''
+    div(class='col-xs-' + column.size)
+        .col(class= sortClass, class= revertClass, data-key=key)= column.caption
+.col-md-2
+.clr

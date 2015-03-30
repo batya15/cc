@@ -15,9 +15,9 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
         Create: Create,
         Preview: Preview,
         Edit: Edit,
-        initialize: function (data, namespace) {
-            this.listenTo(router, 'route:' + namespace, this._loadModule);
-            this._loadModule(data);
+        initialize: function (data) {
+            this.listenTo(router, 'route:' + data.namespace, this._loadModule);
+            this._loadModule(data.arg);
         },
         _loadModule: function (path, param) {
             this._removeContent();
@@ -25,13 +25,13 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
                 path = [path, param];
             }
             if (_.isFunction(this[path[0]])) {
-                this[path[0]].apply(this, path);
+                this[path[0]].call(this, path[1]);
             } else {
-                this.list();
+                this.list(path[1]);
             }
         },
-        list: function () {
-            this.content = new this.List();
+        list: function (p) {
+            this.content = new this.List({model: this.model, path: p});
             this.$el.append(this.content.$el);
         },
         edit: function () {
@@ -50,6 +50,10 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
             if (this.content) {
                 this.content.remove();
             }
+        },
+        remove: function () {
+            this._removeContent();
+            Backbone.View.prototype.remove.apply(this);
         }
     });
 
