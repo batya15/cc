@@ -14,7 +14,9 @@ mixin item(c)
 .caption Таблица
 .tools
     .search
-        input.input(data-search-val, placeholder='Поиск', value= search)
+        .wrapInput
+            input.input(data-search-val, placeholder='Поиск', value= search)
+            .clean.glyphicon.glyphicon-remove(data-search-clean)
         button(data-search).btn.btn-sm.btn-info Поиск
     button.btn.btn-info.btn-sm.icon(data-create)
         .glyphicon.glyphicon-plus
