@@ -1,7 +1,7 @@
 "use strict";
 
-define(['backbone', 'domain/menu', 'router'],
-    function (Backbone, menu, router) {
+define(['backbone'],
+    function (Backbone) {
 
         var DefaultsView = Backbone.View.extend({
             initialize: function () {
@@ -11,31 +11,12 @@ define(['backbone', 'domain/menu', 'router'],
         });
 
         var Pages = Backbone.Collection.extend({
-            buildPage: function (data) {
-                var modelMenu = menu.addItem({
-                    parent: data.parent,
-                    caption: data.caption,
-                    url: '/' + data.namespace,
-                    namespace: data.namespace,
-                    id: data.namespace,
-                    icon: data.icon
-                });
-                router.route(data.namespace + '(/)*path', data.namespace);
-                var modelPage = this.add({
-                    id: data.namespace,
-                    View: data.view,
-                    model: data.model
-                });
-
-                return {
-                    menu: modelMenu,
-                    page: modelPage
-                };
-            },
             model: Backbone.Model.extend({
                 defaults: {
+                    namespace: 'not_found_namespace',
                     View: DefaultsView
-                }
+                },
+                idAttribute: "namespace"
             })
         });
 

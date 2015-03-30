@@ -4,13 +4,13 @@ define(['domain/pages', 'views/entity/page', 'domain/net/users'], function (page
 
     var namespace = 'users';
 
-    return page.buildPage({
+    return page.add({
         namespace: namespace,
         parent: 'control',
         icon: 'glyphicon-user',
         caption: 'Пользователи',
-        model: Users,
-        view: ViewPage
+        Model: Users,
+        View: ViewPage
     });
 });
 

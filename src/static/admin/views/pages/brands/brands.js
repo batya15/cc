@@ -17,11 +17,11 @@ define(['domain/pages', 'views/entity/page', 'views/entity/list/list'], function
         }
     });
 
-    return pages.buildPage({
+    return pages.add({
         namespace: namespace,
         parent: 'directory',
         icon: 'glyphicon-tags',
         caption: 'Бренды',
-        view: View
+        View: View
     });
 });
