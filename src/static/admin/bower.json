@@ -2,7 +2,7 @@
   "name": "cc admin",
   "version": "1.0.0",
   "authors": [
-    "'Batyr <batya.char@gmail.com>"
+    "Batyr <batya.char@gmail.com>"
   ],
   "description": "Cold Control admin",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "normalize.css": "~3.0.2",
     "bootstrap": "~3.3.2",
     "ladda-bootstrap": "~0.1.0",
-    "svg-loaders": "~1.0.2"
+    "svg-loaders": "~1.0.2",
+    "alertify.js": "~0.3.11"
   },
   "overrides": {
     "socket.io-client": {
@@ -45,6 +46,12 @@
         "dist/fonts/glyphicons-halflings-regular.ttf",
         "dist/fonts/glyphicons-halflings-regular.woff",
         "dist/fonts/glyphicons-halflings-regular.woff2"
+      ]
+    },
+    "alertify.js" : {
+      "main": [
+        "lib/alertify.js",
+        "themes/alertify.core.css"
       ]
     }
   }

@@ -1,7 +1,7 @@
 "use strict";
 
-define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbers', './column/column', 'router'],
-    function (_, ParentView, template, Numbers, Column, router) {
+define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbers', './column/column', 'router', './item/item'],
+    function (_, ParentView, template, Numbers, Column, router, Item) {
 
         return ParentView.extend({
             attributes: {
@@ -29,8 +29,8 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.listenTo(this.collection, 'add', this.addItem);
                 this.listenTo(this.model, 'change', this.onModel);
                 this.listenTo(this.model, 'change:search', this.detectSearch);
-                this.collection.each(this.addItem, this);
                 this.render();
+                this.collection.each(this.addItem, this);
                 this.onModel();
             },
             render: function () {
@@ -77,7 +77,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.$('[data-search-val]').val('');
                 this.search();
             },
-            detectSearch: function (e) {
+            detectSearch: function () {
                 if (this.$('[data-search-val]').val()) {
                     this.$('[data-search-clean]').show();
                 } else {
@@ -92,7 +92,10 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.detectSearch();
             },
             addItem: function (m) {
-                //console.log(m);
+                var v = new Item({model: m});
+                this.$('[data-tableConteiner]').append(v.$el);
+                v.render();
+                this.addChild(v);
             }
         });
 

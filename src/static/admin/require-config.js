@@ -34,7 +34,8 @@ require.config({
             'jquery': 'vendor/js/jquery',
             'underscore': 'vendor/js/underscore',
             'backbone': 'vendor/js/backbone',
-            'spin': 'vendor/js/spin'
+            'spin': 'vendor/js/spin',
+            'alertify': 'vendor/js/alertify'
         }
     }
 });

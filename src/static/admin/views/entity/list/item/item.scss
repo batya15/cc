@@ -1,0 +1,33 @@
+.v-item {
+
+  .active {
+    background-color: #eee;
+  }
+
+  .item {
+    min-height: 38px;
+    line-height: 38px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+
+    .buttons {
+      text-align: center;
+
+      span {
+
+        &.red:hover {
+          color: #fff;
+          background-color: #ff5252;
+        }
+        &.blue:hover {
+          color: #fff;
+          background-color: #3498db;
+        }
+        &.green:hover {
+          color: #fff;
+          background-color: #388e3c;
+        }
+      }
+    }
+  }
+}
