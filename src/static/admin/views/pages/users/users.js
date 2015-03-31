@@ -10,14 +10,15 @@ define(['domain/pages', 'views/entity/page', 'domain/net/users'], function (page
         'phone:4': 'phone'
     };
 
-    return page.buildPage({
+
+    return page.add({
         namespace: namespace,
         parent: 'control',
         icon: 'glyphicon-user',
         caption: 'Пользователи',
-        model: Users,
-        fields: fields,
-        view: ViewPage
+        Model: Users,
+        View: ViewPage,
+        fields: fields
     });
 });
 

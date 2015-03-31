@@ -26,7 +26,7 @@ define([
                     this.content.remove();
                 }
                 View = page.get('View');
-                Model = page.get('model');
+                Model = page.get('Model');
                 this.content = new View({
                     arg: param,
                     namespace: namespace,
