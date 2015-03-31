@@ -10,7 +10,6 @@ define(['domain/pages', 'views/entity/page', 'domain/net/users'], function (page
         'phone:4': 'phone'
     };
 
-
     return page.add({
         namespace: namespace,
         parent: 'control',

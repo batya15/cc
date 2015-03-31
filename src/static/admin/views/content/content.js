@@ -3,16 +3,20 @@
 define([
     'views/entity/parentView',
     'router',
+    'domain/router',
     'domain/pages',
     'views/pages/users/users',
     'views/pages/brands/brands'
-], function (ParentView, router) {
+], function (ParentView, router, routerModel) {
 
     var pages = require('domain/pages');
 
     return ParentView.extend({
         initialize: function () {
             this.listenTo(router, 'route', this.showContent);
+            this.listenTo(routerModel, 'change:namespace', function() {
+                console.log('change:namespace');
+            });
         },
         showContent: function(namespace, param) {
             if (this.namespace === namespace) {
