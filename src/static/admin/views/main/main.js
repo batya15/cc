@@ -23,7 +23,9 @@ define(['backbone', './main.jade', 'views/userMenu/userMenu', 'domain/net/auth',
                 this.renderMainMenu();
                 this.renderContent();
 
-                Backbone.history.start({pushState: true, root: '/pjax'});
+                if (!Backbone.History.started) {
+                    Backbone.history.start({pushState: true, root: '/pjax'});
+                }
             },
             toggleLeftMenu: function () {
                if (this.$('.leftPanel').hasClass('remove')) {
@@ -48,7 +50,6 @@ define(['backbone', './main.jade', 'views/userMenu/userMenu', 'domain/net/auth',
                 v.render();
             },
             remove: function () {
-                Backbone.history.stop();
                 ParentView.prototype.remove.apply(this);
             }
         });
