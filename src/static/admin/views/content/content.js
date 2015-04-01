@@ -6,7 +6,13 @@ define([
     'domain/pages',
     'views/pages/users/users',
     'views/pages/brands/brands',
-    'views/pages/home/home'
+    'views/pages/home/home',
+    'views/pages/country/country',
+    'views/pages/products/products',
+    'views/pages/content/content',
+    'views/pages/orders/orders',
+    'views/pages/comment/comment'
+
 ], function (ParentView, router) {
 
     var pages = require('domain/pages');
@@ -32,7 +38,6 @@ define([
             document.title = page.get('caption');
             currentView = new View({model: page});
             this.$el.append(currentView.$el);
-
         }
     });
 
