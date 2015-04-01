@@ -17,15 +17,15 @@ define(['backbone', 'underscore', 'domain/router', 'views/entity/create/create',
         Edit: Edit,
         initialize: function (data) {
             this.fields = data.fields;
-            this.listenTo(router, 'change:path0', this._loadModule);
+            this.listenTo(router, 'change:path', this._loadModule);
             this._loadModule();
         },
         _loadModule: function () {
             this._removeContent();
-            if (router.get('path0') && _.isFunction(this[router.get('path0')])) {
-                this[router.get('path0')].call(this, arguments);
+            if (router.get('path') && _.isFunction(this[router.get('path')])) {
+                this[router.get('path')].call(this, arguments);
             } else {
-                router.set({path0: 'list'});
+                this.list.call(this, arguments);
             }
         },
         list: function () {

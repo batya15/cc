@@ -9,34 +9,36 @@ define(['backbone', 'router', 'underscore'], function(Backbone, router, _) {
         },
         route: function (namespace, other) {
             this.clear({silent: true});
-            this.param = {};
-            this.paths = {};
+            var path = '';
+            var param = {};
 
             if (other[0]) {
-                this.paths = _.object(_.compact(_.map(other[0].split('/'), function (val, i) {
-                    if (val) {
-                        return ['path'+i, val];
-                    }
-                })));
+                path = _.map(other[0].split('/'))[0];
             }
+
             if (other[1]) {
-                this.param = _.object(_.compact(_.map(other[1].split('&'), function (item) {
+                param = _.object(_.compact(_.map(other[1].split('&'), function (item) {
                     if (item) {
                         return item.split('=');
                     }
                 })));
             }
-            this.set(_.extend({namespace: namespace}, this.param, this.paths));
+            this.set(_.extend({namespace: namespace, path: path}, param));
+            console.log(this.get('path'));
         },
         navigate: function () {
             var url = '/' + this.get('namespace');
 
-            _.each(this.paths, function(val) {
-                url += '/' + val;
-            });
-            var r = _.map(this.param, function(val, key) {
-                return (val)? key + '=' + val: false;
-            }).join('&');
+            if (this.get('path')) {
+                url += '/' + this.get('path');
+            }
+
+            var r = _.compact(_.map(this.attributes, function(val, key) {
+                console.log(key, val);
+                if (key !== 'namespace' && key !== 'path' && val) {
+                    return key + '=' + val;
+                }
+            })).join('&');
 
             if (r.length) {
                 url += '?' + r;

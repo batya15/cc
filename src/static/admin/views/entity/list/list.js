@@ -72,15 +72,14 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                         search += '&revert=' + this.model.get('revert');
                     }
                 }
-                router.set({ search : search});
+                //router.set({ search : search});
             },
             create: function () {
-                router.set('path0', 'create');
-
+                router.set('path', 'create');
             },
             search: function () {
                 var search = this.$('[data-search-val]').val();
-                this.model.set({
+                router.set({
                     search: search,
                     active: 1
                 });
