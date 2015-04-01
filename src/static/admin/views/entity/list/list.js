@@ -1,6 +1,6 @@
 "use strict";
 
-define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbers', './column/column', 'router', './item/item'],
+define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbers', './column/column', 'domain/router', './item/item'],
     function (_, ParentView, template, Numbers, Column, router, Item) {
 
         return ParentView.extend({
@@ -33,12 +33,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 console.log(this.opt);
 
                 if (data.path) {
-                    param = _.object(_.compact(_.map(data.path.split('&'), function (item) {
-                        if (item) {
-                            return item.split('=');
-                        }
-                    })));
-                    this.model.set(param);
+                    this.model.set(router.attributes);
                 }
                 this.collection = this.model.get('collection');
                 this.collection.fetch();
@@ -50,8 +45,8 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.onModel();
             },
             render: function () {
-                var nTop = new Numbers({model: this.model});
-                var nBottom = new Numbers({model: this.model});
+                var nTop = new Numbers({model: router});
+                var nBottom = new Numbers({model: router});
                 var column = new Column({model: this.model, opt: this.opt});
 
                 this.addChild(nTop, nBottom, column);
@@ -77,10 +72,11 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                         search += '&revert=' + this.model.get('revert');
                     }
                 }
-                router.navigate('/users/list?' + search);
+                router.set({ search : search});
             },
             create: function () {
-                router.navigate('/users/create', {trigger: true});
+                router.set('path0', 'create');
+
             },
             search: function () {
                 var search = this.$('[data-search-val]').val();

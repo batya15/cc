@@ -1,10 +1,10 @@
 "use strict";
 
-define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views/entity/edit/edit',
+define(['backbone', 'underscore', 'domain/router', 'views/entity/create/create', 'views/entity/edit/edit',
     'views/entity/list/list', 'views/entity/preview/preview'],
     function (Backbone, _) {
 
-    var router = require('router'),
+    var router = require('domain/router'),
         List = require('views/entity/list/list'),
         Create = require('views/entity/create/create'),
         Preview = require('views/entity/preview/preview'),
@@ -17,22 +17,19 @@ define(['backbone', 'underscore', 'router', 'views/entity/create/create', 'views
         Edit: Edit,
         initialize: function (data) {
             this.fields = data.fields;
-            this.listenTo(router, 'route:' + data.namespace, this._loadModule);
-            this._loadModule(data.arg);
+            this.listenTo(router, 'change:path0', this._loadModule);
+            this._loadModule();
         },
-        _loadModule: function (path, param) {
+        _loadModule: function () {
             this._removeContent();
-            if (!_.isArray(path)) {
-                path = [path, param];
-            }
-            if (_.isFunction(this[path[0]])) {
-                this[path[0]].call(this, path[1]);
+            if (router.get('path0') && _.isFunction(this[router.get('path0')])) {
+                this[router.get('path0')].call(this, arguments);
             } else {
-                this.list(path[1]);
+                router.set({path0: 'list'});
             }
         },
-        list: function (p) {
-            this.content = new this.List({model: this.model, path: p, fields: this.fields});
+        list: function () {
+            this.content = new this.List({model: this.model, path: null, fields: this.fields});
             this.$el.append(this.content.$el);
         },
         edit: function () {
