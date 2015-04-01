@@ -2,45 +2,37 @@
 
 define([
     'views/entity/parentView',
-    'router',
     'domain/router',
     'domain/pages',
     'views/pages/users/users',
-    'views/pages/brands/brands'
-], function (ParentView, router, routerModel) {
+    'views/pages/brands/brands',
+    'views/pages/home/home'
+], function (ParentView, router) {
 
     var pages = require('domain/pages');
+    var currentView;
 
     return ParentView.extend({
         initialize: function () {
-            this.listenTo(router, 'route', this.showContent);
-            this.listenTo(routerModel, 'change:namespace', function() {
-                console.log('change:namespace');
-            });
+            this.listenTo(router, 'change:namespace', this.onRoute);
+            this.onRoute(router);
         },
-        showContent: function(namespace, param) {
-            if (this.namespace === namespace) {
-                return false;
+        onRoute: function (r) {
+            var namespace = r.get('namespace'),
+                page = pages.get(namespace),
+                View;
+
+            if (!page) {
+                page = pages.get('home');
             }
-            this.namespace = namespace;
-            var View, Model,
-                page = pages.get(namespace);
-            if (page) {
-                if (this.content) {
-                    this.content.remove();
-                }
-                View = page.get('View');
-                Model = page.get('Model');
-                this.content = new View({
-                    arg: param,
-                    namespace: namespace,
-                    model: new Model(),
-                    fields: page.get('fields')
-                });
-                this.$el.append(this.content.$el);
-            } else {
-                console.info(namespace + '- plugin not found');
+            if (currentView) {
+                currentView.remove();
             }
+            View = page.get('View');
+            document.title = page.get('caption');
+            currentView = new View({model: page});
+            this.$el.append(currentView.$el);
+
         }
     });
 

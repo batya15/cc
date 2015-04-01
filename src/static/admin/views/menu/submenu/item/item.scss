@@ -15,20 +15,17 @@
     &:hover {
       background-color: rgba(240, 240, 240, 0.38);
     }
-  }
 
-  .iconItem {
-    font-size: 11px;
-    margin: 0 20px 0 15px;
-    vertical-align: middle;
-    transition: 0.3s;
-  }
-
-  .active {
-    .item {
+    &[active] {
       background-color: rgba(240, 240, 240, 0.38);
       border-left: 7px solid #4CAF50;
       padding-left: 22px;
+    }
+
+    .iconItem {
+      font-size: 12px;
+      margin: 0 20px 0 15px;
+      transition: 0.3s;
     }
   }
 

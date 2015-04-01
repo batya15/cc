@@ -1,8 +1,9 @@
 "use strict";
-define(['backbone', 'underscore', 'domain/pages', 'router'], function (Backbone, _, pages, router) {
+define(['backbone', 'underscore', 'domain/pages', './router'],
+    function (Backbone, _, pages, router) {
 
     var config = {
-        main: 'Главная',
+        main: 'Основное',
         control: 'Управление',
         directory: 'Справочники',
         products: 'Продукция',
@@ -11,6 +12,22 @@ define(['backbone', 'underscore', 'domain/pages', 'router'], function (Backbone,
         community: 'Комьюнити'
     };
 
+    var SubMenu = Backbone.Collection.extend({
+        initialize: function () {
+            this.listenTo(router, 'change:namespace', this.navigation);
+        },
+        navigation: function () {
+            this.each(function (m) {
+                m.set('active', router.get('namespace') === m.id);
+            }, this);
+        },
+        model: Backbone.Model.extend({
+            navigation: function() {
+                router.set('namespace', this.id);
+                router.navigate(this.get('url'));
+            }
+        })
+    });
 
     var Menu = Backbone.Collection.extend({
         initialize: function () {
@@ -24,7 +41,7 @@ define(['backbone', 'underscore', 'domain/pages', 'router'], function (Backbone,
                 id: key,
                 namespace: key,
                 caption: val,
-                collection: new Backbone.Collection()
+                collection: new SubMenu()
             };
             return this.add(p);
         },
