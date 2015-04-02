@@ -15,8 +15,8 @@ define(['backbone', 'underscore', 'domain/router', 'views/entity/create/create',
         Create: Create,
         Preview: Preview,
         Edit: Edit,
-        initialize: function (data) {
-            this.fields = data.fields;
+        initialize: function () {
+            this.fields = this.model.get('fields');
             this.listenTo(router, 'change:path', this._loadModule);
             this._loadModule();
         },
@@ -29,7 +29,9 @@ define(['backbone', 'underscore', 'domain/router', 'views/entity/create/create',
             }
         },
         list: function () {
-            this.content = new this.List({model: this.model, path: null, fields: this.fields});
+            var m = this.model.get('Model');
+            m = (m)? new m(): {};
+            this.content = new this.List({model: m, path: null, fields: this.fields});
             this.$el.append(this.content.$el);
         },
         edit: function () {
