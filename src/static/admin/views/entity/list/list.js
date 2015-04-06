@@ -16,10 +16,10 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
             },
             initialize: function (data) {
                 this.page = data.page || {};
-                var param, opt = {};
-                console.log(data.fields);
+                this.collection = this.model.get('collection');
 
-                _.each(data.fields, function (val, key) {
+                var opt = {};
+                _.each(this.page.get('fields'), function (val, key) {
                     var n = key.split(':');
 
                     opt[n[0]] = {
@@ -29,14 +29,9 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                         caption: n[0]
                     };
                 });
-
                 this.opt = opt;
-                console.log(this.opt);
 
-                if (data.path) {
-                    this.model.set(router.attributes);
-                }
-                this.collection = this.model.get('collection');
+
                 this.collection.fetch();
                 this.listenTo(this.collection, 'add', this.addItem);
                 this.listenTo(this.model, 'change', this.onModel);
@@ -46,8 +41,8 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 this.onModel();
             },
             render: function () {
-                var nTop = new Numbers({model: router});
-                var nBottom = new Numbers({model: router});
+                var nTop = new Numbers({model: this.model});
+                var nBottom = new Numbers({model: this.model});
                 var column = new Column({model: this.model, opt: this.opt});
 
                 this.addChild(nTop, nBottom, column);
