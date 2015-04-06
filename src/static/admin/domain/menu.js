@@ -23,7 +23,6 @@ define(['backbone', 'underscore', 'domain/pages', './router'],
         },
         model: Backbone.Model.extend({
             navigation: function() {
-                router.set('namespace', this.id);
                 router.navigate(this.get('url'));
             }
         })

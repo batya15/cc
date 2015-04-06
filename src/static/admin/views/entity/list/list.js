@@ -15,6 +15,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 'change [data-search-val]': 'detectSearch'
             },
             initialize: function (data) {
+                this.page = data.page || {};
                 var param, opt = {};
                 console.log(data.fields);
 
@@ -75,7 +76,7 @@ define(['underscore', 'views/entity/parentView', './list.jade', './numbers/numbe
                 //router.set({ search : search});
             },
             create: function () {
-                router.set('path', 'create');
+                router.navigate(this.page.get('namespace') + '/create');
             },
             search: function () {
                 var search = this.$('[data-search-val]').val();

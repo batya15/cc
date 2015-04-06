@@ -13,18 +13,19 @@ define([
     'views/pages/orders/orders',
     'views/pages/comment/comment'
 
-], function (ParentView, router) {
+], function () {
 
-    var pages = require('domain/pages');
-    var currentView;
+    var pages = require('domain/pages'),
+        router = require('domain/router'),
+        ParentView = require('views/entity/parentView'),
+        currentView;
 
     return ParentView.extend({
         initialize: function () {
             this.listenTo(router, 'change:namespace', this.onRoute);
-            this.onRoute(router);
         },
-        onRoute: function (r) {
-            var namespace = r.get('namespace'),
+        onRoute: function () {
+            var namespace = router.get('namespace'),
                 page = pages.get(namespace),
                 View;
 
