@@ -5,7 +5,7 @@ var db = require("entity/db");
 var SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM  `users` WHERE `login` = ? AND `password` = ? AND `blocked` = FALSE";
 var SELECT_USER_BY_LOGIN = "SELECT * FROM  `users` WHERE `login` = ?";
 var ADD_NEW_SESSION_KEY = "INSERT INTO `sessionKey` ( `sid` , `userId`) VALUES ( ?, ?);";
-var SELECT_SESSION_KEY = "SELECT * FROM  `sessionKey` WHERE  `sid` = ? AND `date` > ?";
+var SELECT_SESSION_KEY = "SELECT * FROM  `sessionKey` WHERE  `sid` = ? AND `date` > ? AND `blocked` = 0";
 
 var LOG_LOGIN_USER = 'LOG_loginUser';
 
@@ -73,8 +73,7 @@ module.exports.getUserByLoginPassword = function (login, hash, ip, cb) {
  */
 module.exports.sessionKey = function (hash, id, cb) {
     db.queryRow(ADD_NEW_SESSION_KEY, [hash, id], function (err, row) {
-        var result;
-        cb(err, result);
+        cb(err, row);
     });
 };
 
@@ -115,3 +114,18 @@ module.exports.getUserIdBySID = function (sid, timeLimit, cb) {
         cb(err, result);
     });
 };
+
+/**
+ * Блокирование старой сессии
+ * @param sid
+ * @param cb
+ */
+module.exports.logout = function (sid, cb) {
+    db.update('sessionKey', {
+        sid: sid,
+        blocked: 1
+    }, function() {
+        cb(true);
+    });
+};
+

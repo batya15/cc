@@ -18,8 +18,9 @@ socket.on('connection', function (socket) {
     });
 
     socket.on('logout', function(cb) {
+        var ip  = socket.handshake.address;
         var key = (socket.request.headers.cookie)? socket.request.headers.cookie['sessionKey']: '';
-        auth.logout(key, cb);
+        auth.logout(ip, key, cb);
     });
 
 

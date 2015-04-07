@@ -59,8 +59,9 @@ Auth.prototype.login = function (login, password, ip, cb) {
     });
 };
 
-Auth.prototype.logout = function (hash, cb) {
-    cb(true);
+Auth.prototype.logout = function (ip, sidClient, cb) {
+    var sid = md5(sidClient + ip);
+    dao.logout(sid, cb);
 };
 
 Auth.prototype.checkLoginBySID = function (ip, sidClient, cb) {
