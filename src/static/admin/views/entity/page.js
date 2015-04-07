@@ -32,7 +32,6 @@ define(['views/entity/parentView', 'underscore', 'domain/router', 'views/entity/
             m = (m)? new m(): {};
             var v = new this.List({
                 model: m,
-                fields: this.model.get('fields'),
                 page: this.model
             });
             this.addChild(v);
