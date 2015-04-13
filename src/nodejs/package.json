@@ -22,6 +22,8 @@
     "socket.io": "^1.2.1",
     "socket.io-cookie": "0.0.1",
     "underscore": "^1.7.0",
-    "node-dir": "^0.1.6"
+    "node-dir": "^0.1.6",
+    "request": "~2.55.0",
+    "xml2js": "~0.4.6"
   }
 }
